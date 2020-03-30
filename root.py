@@ -21,8 +21,10 @@ import pandas as pd
 Trip = pd.Dataframe
     
 pd.Dataframe -> [Trip] -> (Trip->Trip) -> [(int, int), float] -> float ->
-             -> [(int, int)] -> [(int, int), (float, float)] 
-
+             -> [(int, int)] -> 
+             -> (Trip->Trip) -> [(int, int), (float, float)] 
+             
+(int -> str)
 """
 
 # Компоненты решения:
