@@ -45,7 +45,7 @@ Trip = pd.DataFrame
 Sample = List[Trip]
 
 
-def combinations(trips: List[Trip]):
+def combinations(trips: List[Trip]) -> [(int, int)]:
     from itertools import combinations
     ix = range(len(trips))
     return list(combinations(ix, 2))
@@ -80,7 +80,7 @@ def strip(t: pd.DataFrame) -> Trip:
     res["duration"] = t.time_delta.cumsum() / (60 * 60)
     return res
 
-# NEXT:
+# NEXT: drop in vectors.py
 # from vectors import growing_index, percentile_index, qs
 
 # def equidist(t, step_km):
