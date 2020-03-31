@@ -56,15 +56,14 @@ pd.Dataframe -> [Trip]
 import pandas as pd
 
 
-
 from typing import List
 
 Trip = pd.DataFrame
-Sample = List[Trip]
 
 
 def combinations(trips: List[Trip]) -> [(int, int)]:
     from itertools import combinations
+
     ix = range(len(trips))
     return list(combinations(ix, 2))
 
@@ -84,15 +83,15 @@ def make_trip_list(df: pd.DataFrame) -> List[Trip]:
 
 
 def check_incoming_dataframe(df: pd.DataFrame):
-   # Исходные данные:        ['time', 'lon', 'lat', 'car', 'ride', 'type']
-   # Должны быть посчитаны:  ['dist', 'time_delta']
+    # Исходные данные:        ['time', 'lon', 'lat', 'car', 'ride', 'type']
+    # Должны быть посчитаны:  ['dist', 'time_delta']
     required_columns = ["car", "date", "lat", "lon", "time", "dist", "time_delta"]
     available_columns = df.columns
     for col in required_columns:
         if col not in available_columns:
-            raise ValueError(f"Column {col} missing from {df.head()}") 
+            raise ValueError(f"Column {col} missing from {df.head()}")
 
-    
+
 def strip(t: pd.DataFrame) -> Trip:
     """
     Приведение данных о треке в стандартный вид.
@@ -104,6 +103,7 @@ def strip(t: pd.DataFrame) -> Trip:
     res["milage"] = t.dist.cumsum()
     res["duration"] = t.time_delta.cumsum() / (60 * 60)
     return res
+
 
 # NEXT: drop in vectors.py
 # from vectors import growing_index, percentile_index, qs
@@ -127,4 +127,4 @@ assert len(raw_trips) == 38
 reduced_trips = reduce_with(raw_trips, lambda t: t.iloc[-1].milage)
 assert round(reduced_trips[0], 2) == 266.04
 all_pairs = combinations(raw_trips)
-assert len(all_pairs) == 38 * 37 /2
+assert len(all_pairs) == 38 * 37 / 2
