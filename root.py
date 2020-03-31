@@ -77,7 +77,7 @@ def make_trip_list(df: pd.DataFrame) -> List[Trip]:
     for date in df.date.unique():
         for car in df.car.unique():
             ix = (df.car == car) & (df.date == date)
-            trip = df[ix]
+            trip = df[ix].sort_values('time', ascending = True)
             trips.append(trip)
     return [strip(t) for t in trips]
 
@@ -124,6 +124,7 @@ pd.options.mode.chained_assignment = None
 df = pd.read_csv("one_day.zip", parse_dates=["time", "date"], nrows=100_000)
 raw_trips = make_trip_list(df)
 assert len(raw_trips) == 38
+assert raw_trips[0].time.iloc[0] < raw_trips[0].time.iloc[-1]
 reduced_trips = reduce_with(raw_trips, lambda t: t.iloc[-1].milage)
 assert round(reduced_trips[0], 2) == 266.04
 all_pairs = combinations(raw_trips)
