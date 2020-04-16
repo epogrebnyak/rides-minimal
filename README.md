@@ -25,12 +25,6 @@
   что-то достраивать
   
 
-
-
 Ссылки:
 
 - [ноутбук rides2.ipynb на Colab](https://colab.research.google.com/drive/1DXsJBTyVvAXrU1aEy5GFWiF_i75LmWS1#scrollTo=h3WG4Nex_pmC)
-
-
-
-Most simple of our algorigthms for transport track analysis
