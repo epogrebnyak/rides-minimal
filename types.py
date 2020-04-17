@@ -135,6 +135,7 @@ def safe_distance(a, b):
 df = get_dataframe()
 assert df.shape == (131842, 6)
 assert set(df.columns.to_list()) == set(["car", "ride", "time", "lon", "lat", "type"])
-print("route")
+print("Finished reading data from file")
 trips = list(yield_trips(df))
 assert len(trips) == 49 
+print("Created list of trips")
