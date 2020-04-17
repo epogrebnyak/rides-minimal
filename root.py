@@ -77,7 +77,7 @@ def make_trip_list(df: pd.DataFrame) -> List[Trip]:
     for date in df.date.unique():
         for car in df.car.unique():
             ix = (df.car == car) & (df.date == date)
-            trip = df[ix].sort_values('time', ascending = True)
+            trip = df[ix].sort_values("time", ascending=True)
             trips.append(trip)
     return [strip(t) for t in trips]
 
