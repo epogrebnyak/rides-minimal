@@ -1,5 +1,14 @@
 # rides-minimal
 
+- [ ] Переносим сюда код из [ноутбука rides2.ipynb на Google Colab](https://colab.research.google.com/drive/1DXsJBTyVvAXrU1aEy5GFWiF_i75LmWS1#scrollTo=h3WG4Nex_pmC)
+- [ ] Пишем тесты на основе короткого датасета [one_day.zip](one_day.zip)
+- [ ] Генерируем документацию (sphinx, mkdocs-react)
+- [ ] Вывешиваем минимальный пример использования пакета на Colab
+- [ ] Составляем план/roadmap доработок (вставки из "тяжелого" алгоритма и т.д.)
+
+
+<!--
+
 Замысел:
 
 - перетащить сюда код, который мы сделали для "легкой" модели анализа треков
@@ -24,7 +33,4 @@
 - у нас не все части в ноутбуке стабильные и полные, надо понимать что там происходит,
   что-то достраивать
   
-
-Ссылки:
-
-- [ноутбук rides2.ipynb на Colab](https://colab.research.google.com/drive/1DXsJBTyVvAXrU1aEy5GFWiF_i75LmWS1#scrollTo=h3WG4Nex_pmC)
+-->
