@@ -27,7 +27,7 @@
 """
 import datetime
 from dataclasses import dataclass
-from typing import List, Tuple, Generator
+from typing import List, Tuple, Generator, Callable
 
 import pandas as pd
 import numpy as np
@@ -54,6 +54,10 @@ def get_combinations(n: int) -> List[Tuple[int, int]]:
     from itertools import combinations
 
     return [(i, j) for i, j in combinations(range(n), 2)]
+
+
+def count_combinations(n: int) -> int:
+    return len(list(get_combinations(n)))
 
 
 # Импорт данных
@@ -304,33 +308,27 @@ class Coverage:
         return round(len(self.in_proximity(radius)) / len(self.mins), 2)
 
 
+@dataclass
+class Examiner:
+    approximate_with: Callable
+    radius_km: float
+
+
 def search(
     trips,
-    approximate_with=[n_segments_by_distance(n=10), distance_increment(km=2.5),],
-    radius=[5, 2.5 * 1.2],
+    initial=Examiner(n_segments_by_distance(n=10), radius_km=5),
+    refined=Examiner(distance_increment(km=2.5), radius_km=2.5*1.2),
     limit=None,
 ):
-    """
 
-    Parameters
-    ----------
-    trips : [Trip]
-        Список поездок.
-    approximate_with : [Route -> Route]
-        
-    radius :  [float]
-        Радиусы для проверки сближения треков.
-    limit : int
-        Обработать *limit* первых пар, используется для тестирования.
+    f = initial.approximate_with
+    g = refined.approximate_with
+    radius_1 = initial.radius_km
+    radius_2 = refined.radius_km
 
-    Yields
-    ------
-    dict
-
-    """
-
-    f, g = approximate_with
-    radius_1, radius_2 = radius
+    m = len(trips)
+    count = count_combinations(m)
+    print(f"{count} pairs are possible for {m} tracks")
 
     # Грубая апроксимация треков
     routes = [f(t.route) for t in trips]
@@ -396,7 +394,7 @@ if __name__ == "__main__":
         pd.DataFrame(results_)
         .assign(cov_total=lambda r: r.cov_1 + r.cov_2)
         .sort_values("cov_total", ascending=False)
-        .reset_index()
+        .reset_index(drop=True)
         .head(10)
     )
     print(results)
