@@ -2,40 +2,44 @@
 
 
 def equitime(t, step_min=5):
-  """Взять равные промежутки по *step_min* минут времени."""
-  time = step_min/60
-  ix = growing_index(t.duration, time)
-  return t.iloc[ix,:]
+    """Взять равные промежутки по *step_min* минут времени."""
+    time = step_min / 60
+    ix = growing_index(t.duration, time)
+    return t.iloc[ix, :]
+
 
 def equidist(t, step_km):
-  """Взять равные промежутки по *step_km* расстояния."""
-  ix = growing_index(t.milage, step_km)
-  return t.iloc[ix,:]
+    """Взять равные промежутки по *step_km* расстояния."""
+    ix = growing_index(t.milage, step_km)
+    return t.iloc[ix, :]
+
 
 def equitime(t, step_min=5):
-  """Взять равные промежутки по *step_min* минут времени."""
-  time = step_min/60
-  ix = growing_index(t.duration, time)
-  return t.iloc[ix,:]
+    """Взять равные промежутки по *step_min* минут времени."""
+    time = step_min / 60
+    ix = growing_index(t.duration, time)
+    return t.iloc[ix, :]
+
 
 def spaced_dist(t, n: int, start=False, end=False):
-  """Взять *n* равных промежутков по расстоянию.
+    """Взять *n* равных промежутков по расстоянию.
   Опционально исключить начало и конец трека.
   """
-  ix = percentile_index(t.milage, qs(n, start, end))
-  return t.iloc[ix,:]
+    ix = percentile_index(t.milage, qs(n, start, end))
+    return t.iloc[ix, :]
+
 
 def spaced_time(t, n: int, start=False, end=False):
-  """Взять *n* равных промежутков по времени.
+    """Взять *n* равных промежутков по времени.
   Опционально исключить начало и конец трека.
   """
-  ix = percentile_index(t.duration, qs(n, start, end))
-  return t.iloc[ix,:]
+    ix = percentile_index(t.duration, qs(n, start, end))
+    return t.iloc[ix, :]
 
 
-def growing_index(xs, step):    
+def growing_index(xs, step):
     xs = [x for x in xs]
-    result = [0] # will include start point
+    result = [0]  # will include start point
     current = xs[0]
     for i, x in enumerate(xs):
         accumulated = x - current
@@ -43,7 +47,7 @@ def growing_index(xs, step):
             result.append(i)
             accumulated = 0
             current = x
-    if result[-1] != len(xs): # will include end point
+    if result[-1] != len(xs):  # will include end point
         result.append(len(xs))
     return result
 
