@@ -202,7 +202,7 @@ class Coverage:
         """Коэффициент перекрытия - доля трека, которая находится 
            на расстоянии не более заданного радиуса от другого трека.
         """
-        return len(self.in_proximity(radius)) / len(self.mins)
+        return round(len(self.in_proximity(radius)) / len(self.mins), 3)
 
 
 @dataclass
