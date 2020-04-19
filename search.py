@@ -1,9 +1,16 @@
-"""Расчет попарных характеристик для выборки поездок.
+"""Расчет попарных характеристик внутри выборки поездок.
+
+Исходные данные и результат
+---------------------------
 
 Исходные данные: выборка поездок `[Trip]`.
-Результат: список словарей c харктеристиками пар треков.
 
-Пример харакетристик:
+Результат: список словарей c характеристиками пар треков.
+
+Комментарии
+-----------    
+
+Пример словаря:
     
   {'track_1': 0,
    'track_2': 7,
@@ -12,25 +19,26 @@
    'cov_1': 0.77,
    'cov_2': 0.26}
 
-'track_1' и 'track_2' - номера треков из выборки.
+Переменные:
 
-'min_dist' и 'max_dist' - расстояния между фигурами треков:
-(минимальное и максимальное). 
+  'track_1' и 'track_2' - номера треков из выборки.
 
-'cov_1' и 'cov_2' - коэффициенты перекрытие треков (в паре сравнения).
+  'min_dist' и 'max_dist' - расстояния между фигурами треков:
+  (минимальное и максимальное). 
 
-'cov_1' - часть первого трека, которая находится на расстоянии 
- не более заданного радиуса от какой-либо точки второго трека.
- Принимает значения от 0 до 1.
+  'cov_1' и 'cov_2' - коэффициенты перекрытие треков (в паре сравнения).
+
+  'cov_1' - часть первого трека, которая находится на расстоянии 
+   не более заданного радиуса от какой-либо точки второго трека.
+   Принимает значения от 0 до 1.
  
-Треки почти всегда не являются симметричными, вне зоны сближения 
+Треки почти всегда не являются симметричными. Вне зоны сближения 
 первая и вторая машины проезжают разный путь, поэтому обычно 
 cov_1 != cov_2 (за исключением случаем когда зона сближения большая
 и КП близок к 1).
 
 """
 
-import datetime
 from dataclasses import dataclass
 from typing import List, Tuple, Generator, Callable
 
@@ -51,8 +59,32 @@ class Route(pd.DataFrame):
 @dataclass
 class Trip:
     car_id: str
-    date: datetime.date
     route: Route
+
+    @property
+    def date(self):
+        return self.route.iloc[0].time.date()
+
+    @property
+    def milage(self) -> float:
+        return round(milage(self.route).iloc[-1], 3)
+
+    def simplify_with(self, func: Callable) -> Route:
+        return func(self.route)
+
+    def start_time(self):
+        return self.route.iloc[0].time
+
+    def end_time(self):
+        return self.route.iloc[-1].time
+
+    def plot(self):
+        from visual import plot_points
+
+        return plot_points([self.route])
+
+
+# Выбор комбинация из п по 2
 
 
 def get_combinations(n: int) -> List[Tuple[int, int]]:
@@ -81,15 +113,16 @@ def yield_trips(df: pd.DataFrame) -> Generator[Trip, None, None]:
     for date in df.date.unique():
         for car in df.car.unique():
             ix = (df.car == car) & (df.date == date)
-            yield Trip(car, date, route(df[ix]))
+            yield Trip(car, make_route(df[ix]))
 
 
 # Работа с треком
 
 
-def route(df: pd.DataFrame) -> Route:
-    res = df[["time"]]
+def make_route(df: pd.DataFrame) -> Route:
+    res = df[["time", "lat", "lon"]]
     res["coord"] = list(zip(df.lat, df.lon))
+    # MAYBE: add time and dist deltas here too.
     return res.sort_values("time")
 
 
@@ -332,14 +365,14 @@ def search(
     routes = [f(t.route) for t in trips]
     print(f"Simplified {len(trips)} routes")
 
-    def prox(tup: tuple):  # замыкание для доступа к routes
+    def prox(tup: tuple):  # замыкание для удобного доступа к routes
         i, j = tup
         return proximity(routes[i], routes[j])
 
     # Выбор пересекающися пар
     pairs = [p for p in get_combinations(len(trips)) if prox(p).min() < radius_1]
     print(f"Found {len(pairs)} pairs of intersecting routes")
-    print("Refining approximation for intersected routes...")
+    print("Refining approximation for these routes...")
 
     # Урезаем для демо-примеров
     if limit:
@@ -361,8 +394,8 @@ def search(
         if p.min() < radius_1:
             md1, md2 = p.minimal_distances()
             yield dict(
-                track_1=i,
-                track_2=j,
+                id_1=i,
+                id_2=j,
                 min_dist=p.min(),
                 max_dist=p.max(),
                 cov_1=md1.coverage(radius_2),
@@ -370,54 +403,50 @@ def search(
             )
 
 
-if __name__ == "__main__":
-    # Получаем данные
-    assert len(get_combinations(49)) == 1176
-
-    def get_dataframe():
-        return pd.read_csv("one_day.zip", parse_dates=["time"])
-
-    df = get_dataframe()
+def get_dataframe():
+    df = pd.read_csv("one_day.zip", parse_dates=["time"])
     assert df.shape == (131842, 6)
-    print("Finished reading data from file")
+    return df
 
+
+if __name__ == "__main__":
+    # Получаем исходные данные
+    df = get_dataframe()
+    print("Finished reading sample data from file")
+
+    # Преобразуем датафрейм в список поедок
     trips = list(yield_trips(df))
     assert len(trips) == 49
     print(f"Created list of {len(trips)} trips")
 
-    # Запускаем алгоритм
-    results_ = list(search(trips, limit=None))
+    # Запускаем алгоритм расчета попарных характеристик поездок
+    limit = None
+    results_ = list(search(trips, limit=limit))
 
+    # Формируем выгрузку данных в csv
+    df_milage = pd.DataFrame([t.milage for t in trips], columns=["milage"])
     results = (
         pd.DataFrame(results_)
         .assign(cov_total=lambda r: r.cov_1 + r.cov_2)
         .sort_values("cov_total", ascending=False)
+        # Приделываем длину поездок
+        .merge(df_milage, how="left", left_on="id_1", right_index=True,)
+        .rename(columns={"milage": "len_1"})
+        .merge(df_milage, how="left", left_on="id_2", right_index=True,)
+        .rename(columns={"milage": "len_2"})
         .reset_index(drop=True)
-        .head(10)
+        .head(20)
     )
     print(results)
     results.to_csv("output.csv", index=None)
 
-    """        
-    Перенести из ноутбука
-    -------------------------
+""" 
+Комментарии
+-----------
     
-    Визуализация:          
-        
-      - [ ] отрисовка треков на карте     
-      - [ ] прочие
-       
-    Фильтры:        
-        
-      - [ ] по направлению
-      - [ ] по времени         
-    """
-
-    """ 
-    Соображения
-    -----------
+ - в функциях упрощения треков много повторов кода, можно рефакторить
+ - df_milage и Trip.milage - много расчетов, тормозят.
+ - может на Julia все переписать, чтобы быстро работало?
+ - growing_index аккумулирует сдвиг 
     
-    - в функциях упрощения много повторов кода, можно рефакторить
-    - для пробега нам нужно перезапускть duration() - много расчетов 
-    
-    """
+"""
