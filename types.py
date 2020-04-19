@@ -1,10 +1,9 @@
 """Расчет попарных характеристик для выборки поездок.
 
-Исходные данные - выборка поездок:
+Исходные данные: выборка поездок `[Trip]`.
+Результат: список словарей c харктеристиками пар треков.
 
-  [Trip]
-  
-Результат - список словарей, характеризующих пары треков, пример:
+Пример харакетристик:
     
   {'track_1': 0,
    'track_2': 7,
@@ -13,18 +12,23 @@
    'cov_1': 0.77,
    'cov_2': 0.26}
 
-'track_1' и 'track_2' - номеры треков из выборки.
+'track_1' и 'track_2' - номера треков из выборки.
 
-'min_dist' и 'max_dist' - расстояния:
-             минимальное и максимальное расстояние между фигурами 
-             треков.
+'min_dist' и 'max_dist' - расстояния между фигурами треков:
+(минимальное и максимальное). 
 
-'cov_1' и 'cov_2' - перекрытие:
-             часть трека, которая находится на расстоянии не более
-             заданного радиуса от любой точки другого трека в паре 
-             сравнения.
+'cov_1' и 'cov_2' - коэффициенты перекрытие треков (в паре сравнения)
 
+'cov_1' - часть первого трека, которая находится на расстоянии 
+ не более заданного радиуса от какой-либо точки второго трека.
+ Примимает значения от 0 до 1.
+ 
+Треки почти всегда не являются симметричными, вне зоны сближения 
+первая и вторая машины проезжают разный путь, поэтому обычно 
+cov_1 != cov_2 (за исключением случаем когда зона сближения большая
+и КП близок к 1).
 """
+
 import datetime
 from dataclasses import dataclass
 from typing import List, Tuple, Generator, Callable
@@ -47,7 +51,7 @@ class Route(pd.DataFrame):
 class Trip:
     car_id: str
     date: datetime.date
-    route: pd.DataFrame
+    route: Route
 
 
 def get_combinations(n: int) -> List[Tuple[int, int]]:
@@ -141,6 +145,7 @@ def safe_distance_2(a, b):
 
 
 # Функции для апроксимации трека:
+
 #  - [x] по времени в пути (инкремент, количество сегментов)
 #  - [x] по расстоянию (инкремент, количество сегментов)
 #  - [ ] по астрономическому времени (есть в ноутбке)
@@ -181,7 +186,7 @@ def distance_increment(km):
     return accept
 
 
-def find_index_quantile(xs, q):
+def find_index_quantile(xs: List, q: float) -> int:
     if q == 0:
         return 0
     if q == 1:
@@ -189,7 +194,7 @@ def find_index_quantile(xs, q):
     return np.searchsorted(xs, v=np.quantile(xs, q), side="left")
 
 
-def find_index(xs, n_segments):
+def find_index(xs: List, n_segments: int) -> List[int]:
     qs = np.linspace(0, 1, n_segments + 1)
     return [find_index_quantile(xs, q) for q in qs]
 
@@ -308,27 +313,19 @@ class Coverage:
         return round(len(self.in_proximity(radius)) / len(self.mins), 2)
 
 
-@dataclass
-class Examiner:
-    approximate_with: Callable
-    radius_km: float
-
-
 def search(
-    trips,
-    initial=Examiner(n_segments_by_distance(n=10), radius_km=5),
-    refined=Examiner(distance_increment(km=2.5), radius_km=2.5*1.2),
+    trips: List[Trip],
+    initial: Tuple[Callable, float] = (n_segments_by_distance(n=10), 5),
+    refined: Tuple[Callable, float] = (distance_increment(km=2.5), 2.5 * 1.2),
     limit=None,
 ):
 
-    f = initial.approximate_with
-    g = refined.approximate_with
-    radius_1 = initial.radius_km
-    radius_2 = refined.radius_km
+    f, radius_1 = initial
+    g, radius_2 = refined
 
     m = len(trips)
     count = count_combinations(m)
-    print(f"{count} pairs are possible for {m} tracks")
+    print(f"{count} pairs are possible for {m} trips")
 
     # Грубая апроксимация треков
     routes = [f(t.route) for t in trips]
@@ -401,7 +398,7 @@ if __name__ == "__main__":
     results.to_csv("output.csv", index=None)
 
     """        
-    План перенести из ноутбука
+    Перенести из ноутбука
     -------------------------
     
     Визуализация:          
@@ -413,7 +410,9 @@ if __name__ == "__main__":
         
       - [ ] по направлению
       - [ ] по времени         
-      
+    """
+
+    """ 
     Соображения
     -----------
     
