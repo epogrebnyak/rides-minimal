@@ -49,25 +49,28 @@ plot_connections = make_plotter(segments)
 # Plot points:
 # ------------
 
-def plot_routes(routes, title='', ax=None):
-   ax = plot_points(routes, ax)
-   plot_connections(routes, ax)
+
+def plot_routes(routes, title="", ax=None):
+    ax = plot_points(routes, ax)
+    plot_connections(routes, ax)
+
 
 def plot_raw_and_reduced(f1, f2, r1, r2, title="Общий заголовок"):
-   fig, (ax1, ax2) = plt.subplots(nrows=1, ncols=2,
-                                  figsize=(10,4),
-                                  sharex=True, sharey=True)
-   plot_routes([f1, f2], ax=ax1, title="Исходные треки")
-   plot_routes([r1, r2], ax=ax2, title="Упрощенные треки")
-   plt.suptitle(title)
-   plt.show()
+    fig, (ax1, ax2) = plt.subplots(
+        nrows=1, ncols=2, figsize=(10, 4), sharex=True, sharey=True
+    )
+    plot_routes([f1, f2], ax=ax1, title="Исходные треки")
+    plot_routes([r1, r2], ax=ax2, title="Упрощенные треки")
+    plt.suptitle(title)
+    #plt.show()
+
 
 def plot_two(trips, i: int, j: int, simplify_with=None):
-   """Отрисовка пары маршрутов по индексам в выборке."""
-   f1, f2 = trips[i].route, trips[j].route
-   if simplify_with:
-      r1, r2 = simplify_with(f1), simplify_with(f2) 
-   else:    
-      r1, r2 = f1, f2
-   title = f"Поездки {i} и {j}"
-   plot_raw_and_reduced(f1, f2, r1, r2, title)
+    """Отрисовка пары маршрутов по индексам в выборке."""
+    f1, f2 = trips[i].route, trips[j].route
+    if simplify_with:
+        r1, r2 = simplify_with(f1), simplify_with(f2)
+    else:
+        r1, r2 = f1, f2
+    title = f"Поездки {i} и {j}"
+    plot_raw_and_reduced(f1, f2, r1, r2, title)
