@@ -458,10 +458,6 @@ if __name__ == "__main__":
     print(results)
     results.to_csv("output.csv", index=None)
 
-    res = list(
-        search([trips[k] for k in [32, 46]], refined=(distance_increment(km=0.1), 0.1))
-    )
-
 """ 
 Комментарии
 -----------
