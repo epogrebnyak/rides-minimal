@@ -1,29 +1,28 @@
 from search import (
     get_dataframe,
-    yield_trips,
-    simplify,
-    report_proximity,
+    get_trips,
     distance_increment,
+    report_proximity,
 )
 
 
-df = get_dataframe()
-trips = list(yield_trips(df))
-i, j = 32, 46
-step_km = 0.1
-search_radius = 0.010
-t1 = trips[i]
-t2 = trips[j]
-r1, r2 = simplify([t1.route, t2.route], distance_increment(step_km))
-prox = report_proximity(r1, r2, search_radius)
-res = dict(
-    track_ids=[i, j],
-    milage_km=[t1.milage, t2.milage],
-    approximated_with=dict(func="distance_increment", arg=step_km),
-    **prox
+def pair(trips, i, j, simplify_with, search_radius):
+    t1, t2 = trips[i], trips[j]
+    r1, r2 = [simplify_with(t.route) for t in (t1, t2)]
+    prox = report_proximity(r1, r2, search_radius)
+    return dict(track_ids=[i, j], milage_km=[t1.milage, t2.milage], **prox)
+
+
+df = get_dataframe("one_day.zip")
+trips = get_trips(df)
+res = pair(
+    trips,
+    i=32,
+    j=46,
+    simplify_with=distance_increment(step_km=0.1),
+    search_radius=0.010,
 )
-for k, v in res.items():
-    print(k, v)
+print(res)
 
 # track_ids [32, 46]
 # milage_km [48.773, 27.98]

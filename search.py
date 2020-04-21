@@ -119,9 +119,13 @@ def yield_trips(df: pd.DataFrame) -> Generator[Trip, None, None]:
 # Работа с треком
 
 
+def coord(df: pd.DataFrame):
+    return list(zip(df.lat, df.lon))
+
+
 def make_route(df: pd.DataFrame) -> Route:
     res = df[["time", "lat", "lon"]]
-    res["coord"] = list(zip(df.lat, df.lon))
+    res["coord"] = coord(df)
     # MAYBE: add time and dist deltas here too.
     return res.sort_values("time")
 
@@ -202,22 +206,24 @@ def growing_index(xs, step):
     return result
 
 
+def time_increment_(minutes: int, route: Route):
+    xs = duration(route)
+    ix = growing_index(xs, minutes)
+    return route.iloc[ix]
+
+
 def time_increment(minutes):
-    def accept(route_df):
-        xs = duration(route_df)
-        ix = growing_index(xs, minutes)
-        return route_df.iloc[ix]
-
-    return accept
+    return lambda route: time_increment_(minutes, route)
 
 
-def distance_increment(km):
-    def accept(route_df):
-        xs = milage(route_df)
-        ix = growing_index(xs, km)
-        return route_df.iloc[ix]
+def distance_increment_(step_km: float, route: Route):
+    xs = milage(route)
+    ix = growing_index(xs, step_km)
+    return route.iloc[ix]
 
-    return accept
+
+def distance_increment(step_km: float):
+    return lambda route: distance_increment_(step_km, route)
 
 
 def find_index_quantile(xs: List, q: float) -> int:
@@ -233,22 +239,24 @@ def find_index(xs: List, n_segments: int) -> List[int]:
     return [find_index_quantile(xs, q) for q in qs]
 
 
-def n_segments_by_distance(n):
-    def accept(route_df):
-        xs = milage(route_df)
-        ix = find_index(xs, n)
-        return route_df.iloc[ix]
-
-    return accept
+def n_segments_by_distance_(n: int, route: Route):
+    xs = milage(route)
+    ix = find_index(xs, n)
+    return route.iloc[ix]
 
 
-def n_segments_by_time(n):
-    def accept(route_df):
-        xs = duration(route_df)
-        ix = find_index(xs, n)
-        return route_df.iloc[ix]
+def n_segments_by_distance(n: int):
+    return lambda route: n_segments_by_distance_(n, route)
 
-    return accept
+
+def n_segments_by_time_(n: int, route: Route):
+    xs = duration(route)
+    ix = find_index(xs, n)
+    return route.iloc[ix]
+
+
+def n_segments_by_time(n: int):
+    return lambda route: n_segments_by_time_(n, route)
 
 
 # Матрица расстояний между точками двух треков
@@ -283,7 +291,7 @@ class Proximity:
         x = np.nanmin(self.mat, axis)
         return x[~np.isnan(x)]
 
-    def minimal_distances(self):
+    def coverages(self):
         return Coverage(self.side_min(1)), Coverage(self.side_min(0))
 
 
@@ -347,24 +355,19 @@ class Coverage:
         return round(len(self.in_proximity(radius)) / len(self.mins), 2)
 
 
-def simplify(routes: List[Route], func: Callable):
-    return list(map(func, routes))
-
-
 def report_proximity(route1: Route, route2: Route, radius_km: float):
     p = proximity(route1, route2)
-    md1, md2 = p.minimal_distances()
+    c1, c2 = p.coverages()
     return dict(
         distances=dict(min=p.min(), max=p.max()),
-        search_radius=radius_km,
-        coverage=[md.coverage(radius_km) for md in (md1, md2)],
+        coverage=[md.coverage(radius_km) for md in (c1, c2)],
     )
 
 
 def search(
     trips: List[Trip],
     initial: Tuple[Callable, float] = (n_segments_by_distance(n=10), 5),
-    refined: Tuple[Callable, float] = (distance_increment(km=2.5), 2.5 * 1.2),
+    refined: Tuple[Callable, float] = (distance_increment(step_km=2.5), 2.5 * 1.2),
     limit=None,
 ):
 
@@ -379,12 +382,11 @@ def search(
     routes = [f(t.route) for t in trips]
     print(f"Simplified {len(trips)} routes")
 
-    def prox(tup: tuple):  # замыкание для удобного доступа к routes
-        i, j = tup
+    def prox(i, j):  # замыкание для удобного доступа к routes
         return proximity(routes[i], routes[j])
 
     # Выбор пересекающися пар
-    pairs = [p for p in get_combinations(len(trips)) if prox(p).min() < radius_1]
+    pairs = [p for p in get_combinations(m) if prox(*p).min() < radius_1]
     print(f"Found {len(pairs)} pairs of intersecting routes")
     print("Refining approximation for these routes...")
 
@@ -406,21 +408,23 @@ def search(
     for (i, j) in pairs:
         p = proximity(routes[i], routes[j])
         if p.min() < radius_1:
-            md1, md2 = p.minimal_distances()
+            c1, c2 = p.coverages()
             yield dict(
                 id_1=i,
                 id_2=j,
                 min_dist=p.min(),
                 max_dist=p.max(),
-                cov_1=md1.coverage(radius_2),
-                cov_2=md2.coverage(radius_2),
+                cov_1=c1.coverage(radius_2),
+                cov_2=c2.coverage(radius_2),
             )
 
 
-def get_dataframe():
-    df = pd.read_csv("one_day.zip", parse_dates=["time"])
-    assert df.shape == (131842, 6)
-    return df
+def get_dataframe(filename="one_day.zip"):
+    return pd.read_csv(filename, parse_dates=["time"])
+
+
+def get_trips(df):
+    return list(yield_trips(df))
 
 
 if __name__ == "__main__":
