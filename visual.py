@@ -62,7 +62,7 @@ def plot_raw_and_reduced(f1, f2, r1, r2, title="Общий заголовок"):
     plot_routes([f1, f2], ax=ax1, title="Исходные треки")
     plot_routes([r1, r2], ax=ax2, title="Упрощенные треки")
     plt.suptitle(title)
-    #plt.show()
+    # plt.show()
 
 
 def plot_two(trips, i: int, j: int, simplify_with=None):

@@ -347,6 +347,20 @@ class Coverage:
         return round(len(self.in_proximity(radius)) / len(self.mins), 2)
 
 
+def simplify(routes: List[Route], func: Callable):
+    return list(map(func, routes))
+
+
+def report_proximity(route1: Route, route2: Route, radius_km: float):
+    p = proximity(route1, route2)
+    md1, md2 = p.minimal_distances()
+    return dict(
+        distances=dict(min=p.min(), max=p.max()),
+        search_radius=radius_km,
+        coverage=[md.coverage(radius_km) for md in (md1, md2)],
+    )
+
+
 def search(
     trips: List[Trip],
     initial: Tuple[Callable, float] = (n_segments_by_distance(n=10), 5),
@@ -439,6 +453,10 @@ if __name__ == "__main__":
     )
     print(results)
     results.to_csv("output.csv", index=None)
+
+    res = list(
+        search([trips[k] for k in [32, 46]], refined=(distance_increment(km=0.1), 0.1))
+    )
 
 """ 
 Комментарии
