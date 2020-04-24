@@ -1,16 +1,30 @@
 # rides-minimal
 
+Основной файл: [rides_minimal.ipynb](https://github.com/epogrebnyak/rides-minimal/blob/master/rides_minimal.ipynb)
+
 ## Цели
 
 - [ ] Переносим сюда оставшийся код из [ноутбука rides2.ipynb на Google Colab](https://colab.research.google.com/drive/1DXsJBTyVvAXrU1aEy5GFWiF_i75LmWS1#scrollTo=h3WG4Nex_pmC)
-- [ ] Составляем план/roadmap доработок (вставки из "тяжелого" алгоритма и т.д.)
+- [ ] Составляем roadmap доработок (вставки из "тяжелого" алгоритма и т.д.)
 
-## Сделано:
+
+## Roadmap доработок 
+
+- [ ] Попробовать [nbdev](https://github.com/fastai/nbdev)
+- [ ] Перенести / доработать графику (особ. - начало и конец треков)
+
+Из "тяжелого" алгоритма:
+
+- [ ] Функция пути по времени
+
+## Сделано
+
+- [x] Новый показатель перекрытия с учетом длины общего пути `overlap` 
 - [x] Вывешиваем минимальный пример использования пакета на Colab 
 - [x] Открыл репозитарий для работы с Colab
 - [x] Переносим сюда анализ датасета [one_day.zip](one_day.zip)
 
-## Not todo:
+## Not todo
 - [ ] Генерируем документацию (sphinx или mkdocs-react) - nbdev
 - [ ] Пишем тесты на основе еще более короткого датасета, чем [one_day.zip](one_day.zip)
 
