@@ -2,7 +2,7 @@
 
 Основной файл: [rides_minimal.ipynb](https://github.com/epogrebnyak/rides-minimal/blob/master/rides_minimal.ipynb)
 
-## Цели
+## Текущие задачи
 
 - [ ] Переносим в `rides_minimal.ipynb` оставшийся код из [ноутбука rides2.ipynb на Google Colab](https://colab.research.google.com/drive/1DXsJBTyVvAXrU1aEy5GFWiF_i75LmWS1#scrollTo=h3WG4Nex_pmC)
 - [ ] Составляем roadmap доработок (вставки из "тяжелого" алгоритма + новые задачи)
