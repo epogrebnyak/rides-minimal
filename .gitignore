@@ -1,4 +1,7 @@
 env1/
+data/
+*.zip
+*.csv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
