@@ -1,5 +1,6 @@
 env1/
 data/
+data2/
 *.zip
 *.csv
 !sample_jsons.zip
