@@ -50,4 +50,3 @@ def pairs_dataframe(dicts, milages):
     df = pd.DataFrame(dicts)
     df = extend(df, milages)
     return df.sort_values("cov", ascending=False).reset_index(drop=True)
-

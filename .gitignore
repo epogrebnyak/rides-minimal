@@ -2,7 +2,7 @@ env1/
 data/
 *.zip
 *.csv
-!sample_jsons.rar
+!sample_jsons.zip
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

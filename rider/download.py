@@ -36,7 +36,7 @@ def unzip(file, folder):
 def download_and_unzip(url: str, destination_folder: str):
     path = download(url)
     if not os.path.exists(destination_folder):
-        os.mkdir(destination_folder)
+        os.makedirs(destination_folder)
         unzip(path, destination_folder)
     else:
         print("Folder already exists:", destination_folder)
