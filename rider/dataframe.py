@@ -13,14 +13,20 @@ def get_dataframe(filename, **kwargs):
     return df_full[["car", "date", "time", "lat", "lon"]]
 
 
-def subset(df, days, types, vehicle_type):
-    """
-    Выбираем из массива *df* треки по дням и типам машин. 
-    """
+def subset_by_dates(df, days:[str]):
     ix = df.date.isin(days)
-    res = df[ix]
-    kx = res.car.apply(vehicle_type).isin(types)
-    return res[kx]
+    return df[ix]
+
+def subset_by_vehicle_types(df, types:[str], vehicle_type_resolver):
+    ix = df.car.apply(vehicle_type_resolver).isin(types)
+    return df[ix]
+
+def subset(df, days, types, vehicle_type_resolver):
+    """
+    Выбираем из фрейма *df* треки по дням и типам машин. 
+    """
+    res_ = subset_by_dates(df, days)
+    return subset_by_vehicle_types(res_, types, vehicle_type_resolver)
 
 
 def overlap(df):

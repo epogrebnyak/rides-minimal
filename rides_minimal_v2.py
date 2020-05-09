@@ -4,7 +4,6 @@ from rider import (
     get_dataframe,
     subset,
     get_trips_and_routes,
-    milage,
     trips_dataframe,
     result_dataframe,
     default_search,
@@ -17,45 +16,52 @@ RAW_DATA_URL = (
     "/data_samples_json.zip"
 )
 
+print("Started reading data")
+
 f = FolderJSON("data")
 f.download(RAW_DATA_URL)
 f.save_trackpoints("df_full.csv")
 f.save_summaries("summaries.csv")
 
 try:
-    vehicle_type
+    what_is_vehicle_type 
 except NameError:
     print("Читаем типы автомобилей")
-    vehicle_type = wrap_vehicle_type("summaries.csv")
+    what_is_vehicle_type = wrap_vehicle_type("summaries.csv")
 
-assert "freight" == vehicle_type("76727d5c-628d-4bcf-a24a-e5cf8a713426")
+assert "freight" == what_is_vehicle_type("76727d5c-628d-4bcf-a24a-e5cf8a713426")
 
 
 try:
     df_full
 except NameError:
-    print("Читаем данные о поездках")
+    print("Читаем данные о поездках (может быть долго)")
     df_full = get_dataframe("df_full.csv")
 
-print("Making subset")
-days = ["2019-09-09"]
-types = ["freight"]
-subset_df = subset(df_full, days, types, vehicle_type)
+DAYS = ["2019-09-09"]
+TYPES = ["freight"]
+LIMIT = 10
 
-print("Extracting routes")
-# Преобразуем датафрейм в список поедок
+print("Making subset")
+subset_df = subset(df_full, DAYS, TYPES, what_is_vehicle_type)
+
+print("Extracting routes // Преобразуем датафрейм в список поездок")
 trips, routes = get_trips_and_routes(subset_df)
 
-print("Calculating milage")
-# Пробег по поездкам
-milages = [milage(r) for r in routes]
+print("Calculating milage // Пробег по поездкам") 
+milages = [r.milage for r in routes]
 
 print("Saving trip start and end")
 trips_dataframe(trips, routes, milages).to_csv("trips.csv")
 
-print("Расчет попарных характеристик поездок") 
-result_dicts = default_search(routes, limit=None)
+print("Расчет попарных характеристик сближения поездок") 
+result_dicts = default_search(routes, limit=LIMIT)
 
-print("Формируем выгрузку данных в csv")
+print("Формируем выгрузку результатов в CSV")
 result_df = result_dataframe(result_dicts, milages)
 result_df.to_csv("output.csv", index=None)
+
+print("All doen // Все сделано.")
+print("output.csv")
+print("trips.csv")
+

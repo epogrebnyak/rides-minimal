@@ -16,6 +16,10 @@ class Trip:
 class Route(pd.DataFrame):
     pass
 
+    @property
+    def milage(self):
+        return milage(self)
+
 
 def get_trips_and_routes(df: pd.DataFrame) -> (List[Trip], List[Route]):
     trips = []
@@ -39,7 +43,7 @@ def coord(df: pd.DataFrame):
 def make_route(df: pd.DataFrame) -> Route:
     res = df[["time", "lat", "lon"]]
     res["coord"] = coord(df)
-    return res.sort_values("time")
+    return Route(res.sort_values("time"))
 
 
 def dicts(trips, routes, milages):
