@@ -114,6 +114,7 @@ class Coverage:
         """
         return round(self.in_proximity(radius) / len(self.mins), 2)
 
+
 from itertools import combinations
 
 

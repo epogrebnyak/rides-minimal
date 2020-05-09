@@ -7,19 +7,21 @@ def get_date(df):
     return df.time.apply(lambda x: pd.Timestamp(x, unit="s").date().__str__())
 
 
-def get_dataframe(filename, **kwargs):
+def read_dataframe(filename, **kwargs):
     df_full = pd.read_csv(filename, usecols=["car", "time", "lat", "lon"], **kwargs)
     df_full["date"] = get_date(df_full)
     return df_full[["car", "date", "time", "lat", "lon"]]
 
 
-def subset_by_dates(df, days:[str]):
+def subset_by_dates(df, days: [str]):
     ix = df.date.isin(days)
     return df[ix]
 
-def subset_by_vehicle_types(df, types:[str], vehicle_type_resolver):
+
+def subset_by_vehicle_types(df, types: [str], vehicle_type_resolver):
     ix = df.car.apply(vehicle_type_resolver).isin(types)
     return df[ix]
+
 
 def subset(df, days, types, vehicle_type_resolver):
     """
@@ -44,7 +46,8 @@ def extend(df, milages):
     return df
 
 
-def result_dataframe(dicts, milages):
+def pairs_dataframe(dicts, milages):
     df = pd.DataFrame(dicts)
     df = extend(df, milages)
     return df.sort_values("cov", ascending=False).reset_index(drop=True)
+

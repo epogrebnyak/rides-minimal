@@ -21,18 +21,17 @@ class Route(pd.DataFrame):
         return milage(self)
 
 
+def slices(df: pd.DataFrame):
+    for k, v in df.groupby(["car", "date"]):
+        yield Trip(*k), make_route(v)
+
+
 def get_trips_and_routes(df: pd.DataFrame) -> (List[Trip], List[Route]):
     trips = []
     routes = []
-    for date in df.date.unique():
-        for car in df.car.unique():
-            ix = (df.car == car) & (df.date == date)
-            carday = df[ix]
-            if not carday.empty:
-                t = Trip(car, str(date))
-                trips.append(t)
-                route = make_route(carday)
-                routes.append(route)
+    for (t, r) in slices(df):
+        trips.append(t)
+        routes.append(r)
     return trips, routes
 
 
@@ -46,15 +45,13 @@ def make_route(df: pd.DataFrame) -> Route:
     return Route(res.sort_values("time"))
 
 
-def dicts(trips, routes, milages):
- for t, r, m in zip(trips, routes, milages):
-    yield dict(car=t.car, 
-               start=start_time(r), 
-               end=end_time(r), 
-               km=m)
-    
+def trip_dicts(trips, routes, milages):
+    for t, r, m in zip(trips, routes, milages):
+        yield dict(car=t.car, start=start_time(r), end=end_time(r), km=m)
+
+
 def trips_dataframe(trips, routes, milages):
-    return pd.DataFrame(dicts(trips, routes, milages))
+    return pd.DataFrame(trip_dicts(trips, routes, milages))
 
 
 def duration_acc(df: pd.DataFrame) -> pd.DataFrame:
