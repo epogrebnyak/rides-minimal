@@ -6,7 +6,7 @@ import numpy as np
 
 pd.set_option("mode.chained_assignment", None)
 
-from .helpers import safe_distance
+from rider.helpers import safe_distance
 
 
 @dataclass
@@ -180,3 +180,46 @@ def distance_increment(step_km: float):
         return route.iloc[ix]
 
     return accept
+
+
+# -- new
+
+
+def _increment(step, accum_func):
+    def accept(route: Route):
+        xs = accum_func(route)
+        ix = growing_index(xs, accum_func)
+        return route.iloc[ix]
+
+    return accept
+
+
+def _nsegments(n, accum_func):
+    def accept(route: Route):
+        xs = accum_func(route).tolist()
+        ix = find_index(xs, n)
+        return route.iloc[ix]
+
+    return accept
+
+
+def increment(self, minutes=None, km=None):
+
+    if minutes and not km:
+        return _increment(minutes, duration_acc)
+
+    if km and not minutes:
+        return _increment(km, milage_acc)
+
+    raise ValueError([minutes, km])
+
+
+@dataclass
+class n_segments:
+    n: int
+
+    def by_duration(self):
+        return _nsegments(self.n, duration_acc)
+
+    def by_distance(self):
+        return _nsegments(self.n, milage_acc)

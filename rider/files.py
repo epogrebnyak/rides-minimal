@@ -4,20 +4,24 @@ import csv
 from pathlib import Path
 import json
 import os
-from typing import Callable
+from typing import Callable, List, Tuple
 import zipfile
 
-from tqdm import tqdm
-import requests
+from tqdm import tqdm  # type: ignore
+import requests  # type: ignore
 
 __all__ = ["dataprep"]
 
 
-def make_filename(url):
+def warn_if_exists(*args, **kwargs):
+    raise NotImplementedError("Decorator for if not os.path.exists case.")
+
+
+def make_filename(url: str) -> str:
     return url.split("/")[-1]
 
 
-def get_from_web(url, file: str):
+def get_from_web(url, file: str) -> None:
     print("Downloading", url)
     r = requests.get(url)
     print("Writing to", file)
@@ -33,15 +37,15 @@ def download(url: str, file: str) -> str:
     return file
 
 
-def unzip(file: str, folder: str):
+def unzip(file: str, folder: str) -> None:
     print("Unpacking JSON files to", folder)
     with zipfile.ZipFile(file, "r") as zip_ref:
         zip_ref.extractall(folder)
     print("Done")
 
 
-def filenames(directory: str):
-    return list(Path(directory).glob("*.json"))
+def filenames(directory: str) -> List[str]:
+    return [str(x) for x in Path(directory).glob("*.json")]
 
 
 def load_json(filepath: str):
@@ -72,35 +76,51 @@ def summaries(folder: str):
     return map(summary, yield_jsons(folder))
 
 
-def save_to_csv(filename, stream, keys):
+def save_to_csv(filename: str, stream, keys: List[str]):
     with open(filename, "w", encoding="utf-8") as f:
         w = csv.DictWriter(f, keys)
         w.writeheader()
         w.writerows(tqdm(stream))
 
 
-def save(getter: Callable, filename: str, source_folder: str):
-    if not os.path.exists(filename):
-        print("Creating", filename)
-        keys = next(getter(source_folder)).keys()
-        stream = getter(source_folder)
-        save_to_csv(filename, stream, keys)
-        print("Done")
-    else:
+def _save(getter: Callable, source_folder: str, filename: str):
+    print("Creating", filename)
+    keys = next(getter(source_folder)).keys()
+    stream = getter(source_folder)
+    save_to_csv(filename, stream, keys)
+    print("Done")
+
+
+def save(getter: Callable, source_folder: str, filename: str) -> str:
+    if os.path.exists(filename):
         print("File already exists:", filename)
+    else:
+        _save(getter, source_folder, filename)
     return filename
 
 
-def dataprep(url, directory):
+def dataprep(
+    url: str,
+    directory: str,
+    _json_dirname: str = "jsons",
+    _trackpoints_csv: str = "df_full.csv",
+    _summaries_csv: str = "summaries.csv",
+) -> Tuple[str, str]:
+    """
+    Prepare data using *url*. 
+    Save data files at *directory*, re-use files if they exist.
+    Return paths to two CSV files.
+    """
+
     def path(filename):
         return os.path.join(directory, filename)
 
-    json_dir = path("jsons")
+    json_dir = path(_json_dirname)
     zipfile = path(make_filename(url))
     os.makedirs(json_dir, exist_ok=True)
     download(url, zipfile)
     if not filenames(json_dir):
         unzip(zipfile, json_dir)
-    a = save(trackpoints, path("df_full.csv"), json_dir)
-    b = save(summaries, path("summaries.csv"), json_dir)
+    a = save(trackpoints, json_dir, path(_trackpoints_csv))
+    b = save(summaries, json_dir, path(_summaries_csv))
     return a, b
