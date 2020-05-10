@@ -1,5 +1,8 @@
 import pandas as pd
 
+# Created via:
+# routes[0].sample(20).sort_values("time", ascending=True).to_dict()
+
 r = pd.DataFrame(
     {
         "lat": {
