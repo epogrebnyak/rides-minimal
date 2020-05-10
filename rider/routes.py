@@ -4,6 +4,8 @@ from typing import List, Callable
 import pandas as pd
 import numpy as np
 
+pd.set_option("mode.chained_assignment", None)
+
 from .helpers import safe_distance
 
 

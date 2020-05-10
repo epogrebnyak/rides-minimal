@@ -1,6 +1,6 @@
 import pandas as pd
 
-__all__ = ["get_dataframe", "subset"]
+__all__ = ["read_dataframe", "subset"]
 
 
 def get_date(df):

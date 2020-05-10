@@ -8,7 +8,7 @@ from dataclasses import dataclass
 
 from tqdm import tqdm
 
-__all__ = ["FolderJSON"]
+__all__ = ["DataFolder"]
 
 
 def filenames(directory: str):
@@ -58,21 +58,36 @@ def save(filename: str, getter: Callable, source_folder: str):
         keys = next(getter(source_folder)).keys()
         stream = getter(source_folder)
         save_to_csv(filename, stream, keys)
-        print("Saved", filename)
-    print("File already exists:", filename)
+        print("Done")
+    else:    
+        print("File already exists:", filename)
+    return filename    
 
 
 @dataclass
-class FolderJSON:
+class DataFolder:
     directory: str
+    trackpoints_csv: str = "df_full.csv"    
+    summaries_csv: str = "summaries.csv"
+
+    def path(self, filename):
+        return str(Path(self.directory) / filename)
+    
+    @property
+    def json_folder(self):
+        return self.path("jsons")
 
     def download(self, url: str):
         from .download import download_and_unzip
 
-        download_and_unzip(url, self.directory)
+        download_and_unzip(url, self.json_folder)
 
-    def save_trackpoints(self, path: str):
-        save(path, trackpoints, self.directory)
+    def save_trackpoints(self):
+        return save(self.path(self.trackpoints_csv), 
+                    trackpoints, 
+                    self.json_folder)
 
-    def save_summaries(self, path: str):
-        save(path, summaries, self.directory)
+    def save_summaries(self):
+        return save(self.path(self.summaries_csv), 
+                    summaries, 
+                    self.json_folder)

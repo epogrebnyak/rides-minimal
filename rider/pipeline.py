@@ -1,5 +1,5 @@
 from rider import (
-    FolderJSON,
+    DataFolder,
     wrap_vehicle_type,
     read_dataframe,
     subset_by_dates,
@@ -32,31 +32,14 @@ def subset(full_csv, summaries_csv, days, types):
 
 def pipeline(
     url,    
-    json_folder,
+    data_folder,
     days=None,
     types=None,
-    limit=None,
-    filename_full_csv="df_full.csv",
-    filename_summaries_csv="summaries.csv",
+    limit=None
 ):
-    f = FolderJSON(json_folder)
+    f = DataFolder(data_folder)
     f.download(url)
-    f.save_trackpoints(filename_full_csv)
-    f.save_summaries(filename_summaries_csv)
-    df = subset(filename_full_csv, filename_summaries_csv, days, types)
+    a = f.save_trackpoints()
+    b = f.save_summaries()
+    df = subset(a, b, days, types)
     return default_results(df, limit)
-
-
-job = dict(
-    url="https://github.com/epogrebnyak/rides-minimal/raw/master/sample_jsons/sample_jsons.zip",
-    json_folder="data2/json",
-    days=None,
-    types=None,
-    limit=None,
-    filename_full_csv="data2/df_full.csv",
-    filename_summaries_csv="data2/summaries.csv",
-)
-
-(trips, routes, milages), (trips_df, pairs_df) = pipeline(**job)
-print(trips_df)
-print(pairs_df)

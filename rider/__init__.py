@@ -1,4 +1,4 @@
-from .files import FolderJSON
+from .files import DataFolder
 from .vehicles import wrap_vehicle_type
 from .dataframe import (
     read_dataframe,
@@ -12,3 +12,4 @@ from .routes import (
     n_segments_by_distance,
 )
 from .search import default_search
+from .pipeline import pipeline
