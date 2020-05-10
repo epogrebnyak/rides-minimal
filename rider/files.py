@@ -102,9 +102,9 @@ def save(getter: Callable, source_folder: str, filename: str) -> str:
 def dataprep(
     url: str,
     directory: str,
-    _json_dirname: str = "jsons",
-    _trackpoints_csv: str = "df_full.csv",
-    _summaries_csv: str = "summaries.csv",
+    json_dirname: str = "jsons",
+    trackpoints_csv: str = "df_full.csv",
+    summaries_csv: str = "summaries.csv",
 ) -> Tuple[str, str]:
     """
     Prepare data using *url*. 
@@ -115,12 +115,12 @@ def dataprep(
     def path(filename):
         return os.path.join(directory, filename)
 
-    json_dir = path(_json_dirname)
+    json_dir = path(json_dirname)
     zipfile = path(make_filename(url))
     os.makedirs(json_dir, exist_ok=True)
     download(url, zipfile)
     if not filenames(json_dir):
         unzip(zipfile, json_dir)
-    a = save(trackpoints, json_dir, path(_trackpoints_csv))
-    b = save(summaries, json_dir, path(_summaries_csv))
+    a = save(trackpoints, json_dir, path(trackpoints_csv))
+    b = save(summaries, json_dir, path(summaries_csv))
     return a, b

@@ -1,9 +1,3 @@
-rider package
-=============
-
-Submodules
-----------
-
 rider.dataframe module
 ----------------------
 

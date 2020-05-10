@@ -1,8 +1,13 @@
+from typing import List, Callable
+
 import pandas as pd  # type: ignore
 
+__all__ = ['types', 'wrap_vehicle_type'] 
 
-def types():
-    return {"bus", "freight", "passenger", "special"}
+
+def list_types() -> List:
+    """Перечислить типы автомобилей.""" 
+    return ["bus", "freight", "passenger", "special"]
 
 
 def vehicle_type_dataframe(cars: pd.DataFrame):
@@ -34,11 +39,16 @@ def vehicle_type_dataframe(cars: pd.DataFrame):
     return cars.type
 
 
-def all_cars(filename):
+def all_cars(filename: str) -> pd.DataFrame:
     return pd.read_csv(filename).groupby("car_id").first()
 
 
-def wrap_vehicle_type(filename):
+def wrap_vehicle_type(filename: str) -> Callable:
+    """
+    Вернуть функцию, которая по идентификатору автомобиля
+    будет определять его тип.
+    Функция создается на основе данных из файла *filename*. 
+    """
     vehicles = vehicle_type_dataframe(all_cars(filename))
 
     def vtype(car_id: str):

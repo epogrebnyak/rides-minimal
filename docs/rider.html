@@ -4,7 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>rider package &#8212; rider  documentation</title>
+    <title>rider.dataframe module &#8212; rider  documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -31,25 +31,23 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="rider-package">
-<h1>rider package<a class="headerlink" href="#rider-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="module-rider.dataframe">
-<span id="rider-dataframe-module"></span><h2>rider.dataframe module<a class="headerlink" href="#module-rider.dataframe" title="Permalink to this headline">¶</a></h2>
+  <div class="section" id="module-rider.dataframe">
+<span id="rider-dataframe-module"></span><h1>rider.dataframe module<a class="headerlink" href="#module-rider.dataframe" title="Permalink to this headline">¶</a></h1>
+<p>Representaion of results.</p>
 <dl class="py function">
 <dt id="rider.dataframe.pairs_dataframe">
-<code class="sig-prename descclassname">rider.dataframe.</code><code class="sig-name descname">pairs_dataframe</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dicts</span></em>, <em class="sig-param"><span class="n">milages</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rider.dataframe.pairs_dataframe" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="sig-prename descclassname">rider.dataframe.</code><code class="sig-name descname">pairs_dataframe</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dicts</span><span class="p">:</span> <span class="n">List<span class="p">[</span>dict<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">milages</span><span class="p">:</span> <span class="n">List<span class="p">[</span>float<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rider.dataframe.pairs_dataframe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Создать датафрейм с парными характеристиками поездок
+на основе списков <em>dicts</em> и <em>milages</em>.</p>
+</dd></dl>
 
 </div>
 <div class="section" id="module-rider.files">
-<span id="rider-files-module"></span><h2>rider.files module<a class="headerlink" href="#module-rider.files" title="Permalink to this headline">¶</a></h2>
+<span id="rider-files-module"></span><h1>rider.files module<a class="headerlink" href="#module-rider.files" title="Permalink to this headline">¶</a></h1>
 <p>Download and read JSON files.</p>
 <dl class="py function">
 <dt id="rider.files.dataprep">
-<code class="sig-prename descclassname">rider.files.</code><code class="sig-name descname">dataprep</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">url</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">directory</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">_json_dirname</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'jsons'</span></em>, <em class="sig-param"><span class="n">_trackpoints_csv</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'df_full.csv'</span></em>, <em class="sig-param"><span class="n">_summaries_csv</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'summaries.csv'</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>str<span class="p">, </span>str<span class="p">]</span><a class="headerlink" href="#rider.files.dataprep" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rider.files.</code><code class="sig-name descname">dataprep</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">url</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">directory</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">json_dirname</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'jsons'</span></em>, <em class="sig-param"><span class="n">trackpoints_csv</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'df_full.csv'</span></em>, <em class="sig-param"><span class="n">summaries_csv</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'summaries.csv'</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>str<span class="p">, </span>str<span class="p">]</span><a class="headerlink" href="#rider.files.dataprep" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prepare data using <em>url</em>. 
 Save data files at <em>directory</em>, re-use files if they exist.
 Return paths to two CSV files.</p>
@@ -57,7 +55,7 @@ Return paths to two CSV files.</p>
 
 </div>
 <div class="section" id="module-rider.helpers">
-<span id="rider-helpers-module"></span><h2>rider.helpers module<a class="headerlink" href="#module-rider.helpers" title="Permalink to this headline">¶</a></h2>
+<span id="rider-helpers-module"></span><h1>rider.helpers module<a class="headerlink" href="#module-rider.helpers" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt id="rider.helpers.distance_km">
 <code class="sig-prename descclassname">rider.helpers.</code><code class="sig-name descname">distance_km</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span><span class="p">:</span> <span class="n">tuple</span></em>, <em class="sig-param"><span class="n">b</span><span class="p">:</span> <span class="n">tuple</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rider.helpers.distance_km" title="Permalink to this definition">¶</a></dt>
@@ -84,7 +82,7 @@ Return paths to two CSV files.</p>
 
 </div>
 <div class="section" id="module-rider.pipeline">
-<span id="rider-pipeline-module"></span><h2>rider.pipeline module<a class="headerlink" href="#module-rider.pipeline" title="Permalink to this headline">¶</a></h2>
+<span id="rider-pipeline-module"></span><h1>rider.pipeline module<a class="headerlink" href="#module-rider.pipeline" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt id="rider.pipeline.default_pipeline">
 <code class="sig-prename descclassname">rider.pipeline.</code><code class="sig-name descname">default_pipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">url</span></em>, <em class="sig-param"><span class="n">data_folder</span></em>, <em class="sig-param"><span class="n">days</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">types</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">limit</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rider.pipeline.default_pipeline" title="Permalink to this definition">¶</a></dt>
@@ -122,7 +120,7 @@ Return paths to two CSV files.</p>
 
 </div>
 <div class="section" id="module-rider.plotting">
-<span id="rider-plotting-module"></span><h2>rider.plotting module<a class="headerlink" href="#module-rider.plotting" title="Permalink to this headline">¶</a></h2>
+<span id="rider-plotting-module"></span><h1>rider.plotting module<a class="headerlink" href="#module-rider.plotting" title="Permalink to this headline">¶</a></h1>
 <p>Графические функции для отрисовки треков</p>
 <dl class="py function">
 <dt id="rider.plotting.get_color">
@@ -182,7 +180,7 @@ Return paths to two CSV files.</p>
 
 </div>
 <div class="section" id="module-rider.routes">
-<span id="rider-routes-module"></span><h2>rider.routes module<a class="headerlink" href="#module-rider.routes" title="Permalink to this headline">¶</a></h2>
+<span id="rider-routes-module"></span><h1>rider.routes module<a class="headerlink" href="#module-rider.routes" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt id="rider.routes.Route">
 <em class="property">class </em><code class="sig-prename descclassname">rider.routes.</code><code class="sig-name descname">Route</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">index</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">columns</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">dtype</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">copy</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rider.routes.Route" title="Permalink to this definition">¶</a></dt>
@@ -378,7 +376,7 @@ np.quantile(xs, 0.9) может быть равно len(xs),
 
 </div>
 <div class="section" id="module-rider.search">
-<span id="rider-search-module"></span><h2>rider.search module<a class="headerlink" href="#module-rider.search" title="Permalink to this headline">¶</a></h2>
+<span id="rider-search-module"></span><h1>rider.search module<a class="headerlink" href="#module-rider.search" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt id="rider.search.Coverage">
 <em class="property">class </em><code class="sig-prename descclassname">rider.search.</code><code class="sig-name descname">Coverage</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mins</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rider.search.Coverage" title="Permalink to this definition">¶</a></dt>
@@ -501,36 +499,24 @@ np.quantile(xs, 0.9) может быть равно len(xs),
 
 </div>
 <div class="section" id="module-rider.vehicles">
-<span id="rider-vehicles-module"></span><h2>rider.vehicles module<a class="headerlink" href="#module-rider.vehicles" title="Permalink to this headline">¶</a></h2>
-<dl class="py function">
-<dt id="rider.vehicles.all_cars">
-<code class="sig-prename descclassname">rider.vehicles.</code><code class="sig-name descname">all_cars</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rider.vehicles.all_cars" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<span id="rider-vehicles-module"></span><h1>rider.vehicles module<a class="headerlink" href="#module-rider.vehicles" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt id="rider.vehicles.types">
-<code class="sig-prename descclassname">rider.vehicles.</code><code class="sig-name descname">types</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rider.vehicles.types" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt id="rider.vehicles.vehicle_type_dataframe">
-<code class="sig-prename descclassname">rider.vehicles.</code><code class="sig-name descname">vehicle_type_dataframe</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cars</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rider.vehicles.vehicle_type_dataframe" title="Permalink to this definition">¶</a></dt>
-<dd><p>Разобрать машины по типам:
-- bus        
-- passenger
-- freight
-- special</p>
+<code class="sig-prename descclassname">rider.vehicles.</code><code class="sig-name descname">types</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Set<a class="headerlink" href="#rider.vehicles.types" title="Permalink to this definition">¶</a></dt>
+<dd><p>Перечислить типы автомобилей.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt id="rider.vehicles.wrap_vehicle_type">
-<code class="sig-prename descclassname">rider.vehicles.</code><code class="sig-name descname">wrap_vehicle_type</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rider.vehicles.wrap_vehicle_type" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="sig-prename descclassname">rider.vehicles.</code><code class="sig-name descname">wrap_vehicle_type</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; Callable<a class="headerlink" href="#rider.vehicles.wrap_vehicle_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Вернуть функцию, которая по идентификатору автомобиля
+будет определять его тип.
+Функция создается на основе данных из файла <em>filename</em>.</p>
+</dd></dl>
 
 </div>
 <div class="section" id="module-rider">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-rider" title="Permalink to this headline">¶</a></h2>
-</div>
+<span id="module-contents"></span><h1>Module contents<a class="headerlink" href="#module-rider" title="Permalink to this headline">¶</a></h1>
 </div>
 
 
@@ -552,19 +538,15 @@ np.quantile(xs, 0.9) может быть равно len(xs),
 <h3>Navigation</h3>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">rider package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-rider.dataframe">rider.dataframe module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-rider.files">rider.files module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-rider.helpers">rider.helpers module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-rider.pipeline">rider.pipeline module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-rider.plotting">rider.plotting module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-rider.routes">rider.routes module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-rider.search">rider.search module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-rider.vehicles">rider.vehicles module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-rider">Module contents</a></li>
-</ul>
-</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">rider.dataframe module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#module-rider.files">rider.files module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#module-rider.helpers">rider.helpers module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#module-rider.pipeline">rider.pipeline module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#module-rider.plotting">rider.plotting module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#module-rider.routes">rider.routes module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#module-rider.search">rider.search module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#module-rider.vehicles">rider.vehicles module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#module-rider">Module contents</a></li>
 </ul>
 
 <div class="relations">

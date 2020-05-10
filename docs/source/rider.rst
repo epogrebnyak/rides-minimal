@@ -1,9 +1,3 @@
-rider package
-=============
-
-Submodules
-----------
-
 rider.dataframe module
 ----------------------
 
@@ -68,11 +62,3 @@ rider.vehicles module
    :undoc-members:
    :show-inheritance:
 
-
-Module contents
----------------
-
-.. automodule:: rider
-   :members:
-   :undoc-members:
-   :show-inheritance:
