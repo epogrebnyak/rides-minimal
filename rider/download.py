@@ -35,6 +35,7 @@ def unzip(file, folder):
 
 def download_and_unzip(url: str, destination_folder: str):
     path = download(url)
-    os.makedirs(destination_folder, exist_ok=True)
-    unzip(path, destination_folder)
+    if not os.path.exists(path):
+        os.makedirs(destination_folder, exist_ok=True)
+        unzip(path, destination_folder)
     return destination_folder
