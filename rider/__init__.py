@@ -7,11 +7,10 @@ from .routes import (
 from .search import default_search
 from .dataframe import pairs_dataframe
 from .pipeline import (
-    read_dataframe,
-    make_subset,
-    make_subset_from_files,
     get_dataset,
     get_dataset0,
+    make_subset,
+    make_subset_from_files,
     default_pipeline,
     default_results,
 )
