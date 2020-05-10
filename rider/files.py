@@ -59,20 +59,20 @@ def save(filename: str, getter: Callable, source_folder: str):
         stream = getter(source_folder)
         save_to_csv(filename, stream, keys)
         print("Done")
-    else:    
+    else:
         print("File already exists:", filename)
-    return filename    
+    return filename
 
 
 @dataclass
 class DataFolder:
     directory: str
-    trackpoints_csv: str = "df_full.csv"    
+    trackpoints_csv: str = "df_full.csv"
     summaries_csv: str = "summaries.csv"
 
     def path(self, filename):
         return str(Path(self.directory) / filename)
-    
+
     @property
     def json_folder(self):
         return self.path("jsons")
@@ -83,11 +83,7 @@ class DataFolder:
         download_and_unzip(url, self.json_folder)
 
     def save_trackpoints(self):
-        return save(self.path(self.trackpoints_csv), 
-                    trackpoints, 
-                    self.json_folder)
+        return save(self.path(self.trackpoints_csv), trackpoints, self.json_folder)
 
     def save_summaries(self):
-        return save(self.path(self.summaries_csv), 
-                    summaries, 
-                    self.json_folder)
+        return save(self.path(self.summaries_csv), summaries, self.json_folder)

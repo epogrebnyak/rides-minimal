@@ -1,34 +1,6 @@
 import pandas as pd
 
-__all__ = ["read_dataframe", "subset"]
-
-
-def get_date(df):
-    return df.time.apply(lambda x: pd.Timestamp(x, unit="s").date().__str__())
-
-
-def read_dataframe(filename, **kwargs):
-    df_full = pd.read_csv(filename, usecols=["car", "time", "lat", "lon"], **kwargs)
-    df_full["date"] = get_date(df_full)
-    return df_full[["car", "date", "time", "lat", "lon"]]
-
-
-def subset_by_dates(df, days: [str]):
-    ix = df.date.isin(days)
-    return df[ix]
-
-
-def subset_by_vehicle_types(df, types: [str], vehicle_type_resolver):
-    ix = df.car.apply(vehicle_type_resolver).isin(types)
-    return df[ix]
-
-
-def subset(df, days, types, vehicle_type_resolver):
-    """
-    Выбираем из фрейма *df* треки по дням и типам машин. 
-    """
-    res_ = subset_by_dates(df, days)
-    return subset_by_vehicle_types(res_, types, vehicle_type_resolver)
+__all__ = ["pairs_dataframe"]
 
 
 def overlap(df):
