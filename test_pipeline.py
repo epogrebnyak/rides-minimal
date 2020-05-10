@@ -9,6 +9,6 @@ def test_default_pipeline(tmpdir):
         types=None,
         limit=None,
     )
-    trips_df, pairs_df = default_pipeline(**job)
+    (trips_df, pairs_df), _ = default_pipeline(**job)
     print(trips_df)
     print(pairs_df)

@@ -1,7 +1,7 @@
 """Графические функции для отрисовки треков"""
 
-import matplotlib.pyplot as plt
-from matplotlib import cm
+import matplotlib.pyplot as plt  # type: ignore
+from matplotlib import cm  # type: ignore
 
 
 def get_color(i, n):

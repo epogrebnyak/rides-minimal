@@ -1,15 +1,12 @@
 from typing import Callable, List
 
-import pandas as pd
+import pandas as pd  # type: ignore
 
-from rider import (
-    dataprep,
-    wrap_vehicle_type,
-    get_trips_and_routes,
-    default_search,
-    trips_dataframe,
-    pairs_dataframe,
-)
+from .files import dataprep
+from .vehicles import wrap_vehicle_type
+from .routes import get_trips_and_routes, trips_dataframe
+from .search import default_search
+from .dataframe import pairs_dataframe
 
 
 def _get_date(df):
@@ -27,20 +24,22 @@ def get_dataset(url, folder):
     return read_dataframe(full_csv), wrap_vehicle_type(summaries_csv)
 
 
-def get_dataset0(url):
+def get_dataset0(url: str):
     import tempfile
 
     with tempfile.TemporaryDirectory() as tmpdirname:
         return get_dataset(url, tmpdirname)
 
 
-def _subset_by_dates(df, days: [str]):
+def _subset_by_dates(df: pd.DataFrame, days: List[str]) -> pd.DataFrame:
     ix = df.date.isin(days)
     return df[ix]
 
 
-def _subset_by_vehicle_types(df, types: [str], vehicle_type_resolver):
-    ix = df.car.apply(vehicle_type_resolver).isin(types)
+def _subset_by_vehicle_types(
+    df: pd.DataFrame, types: List[str], resolver: Callable
+) -> pd.DataFrame:
+    ix = df.car.apply(resolver).isin(types)
     return df[ix]
 
 
@@ -70,10 +69,10 @@ def default_results(df, limit=None):
     result_dicts = default_search(routes, limit)
     pairs_df = pairs_dataframe(result_dicts, milages)
     trips_df = trips_dataframe(trips, routes, milages)
-    return (trips_df, pairs_df)
+    return (trips_df, pairs_df), (trips, routes, milages)
 
 
-def default_pipeline(url, data_folder, days=None, types=None, limit=None):
+def default_pipeline(url, data_folder, days=[], types=[], limit: int = None):
     full_csv, summaries_csv = dataprep(url, data_folder)
     df = make_subset_from_files(full_csv, summaries_csv, days, types)
     return default_results(df, limit)

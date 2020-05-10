@@ -1,12 +1,12 @@
 from dataclasses import dataclass
-from typing import List, Callable
+from typing import List, Callable, Tuple
 
-import pandas as pd
-import numpy as np
+import pandas as pd  # type: ignore
+import numpy as np  # type: ignore
 
 pd.set_option("mode.chained_assignment", None)
 
-from rider.helpers import safe_distance
+from .helpers import safe_distance
 
 
 @dataclass
@@ -28,7 +28,7 @@ def slices(df: pd.DataFrame):
         yield Trip(*k), make_route(v)
 
 
-def get_trips_and_routes(df: pd.DataFrame) -> (List[Trip], List[Route]):
+def get_trips_and_routes(df: pd.DataFrame) -> Tuple[List[Trip], List[Route]]:
     trips = []
     routes = []
     for (t, r) in slices(df):

@@ -1,12 +1,11 @@
 from dataclasses import dataclass
 from typing import List, Tuple, Callable
 
-import numpy as np
+import numpy as np  # type: ignore
+from scipy.spatial.distance import cdist  # type: ignore
+from tqdm import tqdm  # type: ignore
+
 from .helpers import safe_distance_2
-
-
-from scipy.spatial.distance import cdist
-
 from .routes import Route, points, n_segments_by_distance, distance_increment
 
 
@@ -170,7 +169,6 @@ def search(
     print("Calculating distances between routes and reporting...")
 
     # Считаем перекрытие треков в пересекающися парах
-    from tqdm import tqdm
 
     result = []
     for (i, j) in tqdm(pairs):

@@ -1,6 +1,6 @@
 from typing import Tuple, Callable
-import numpy as np
-from geopy.distance import great_circle
+import numpy as np  # type: ignore
+from geopy.distance import great_circle  # type: ignore
 
 
 def distance_km(a: tuple, b: tuple):
