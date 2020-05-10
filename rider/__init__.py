@@ -12,5 +12,6 @@ from .pipeline import (
     subset_by_dates,
     subset_by_vehicle_types,
     get_dataset,
+    get_dataset0,
     default_pipeline,
 )

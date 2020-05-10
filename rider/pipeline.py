@@ -20,15 +20,19 @@ def read_dataframe(filename, **kwargs):
     return df_full[["car", "date", "time", "lat", "lon"]]
 
 
-def get_dataset(url):
-    import tempfile
-
-    with tempfile.TemporaryDirectory() as tmpdirname:
-        f = DataFolder(tmpdirname)
+def get_dataset(url, folder):
+        f = DataFolder(folder)
         f.download(url)
         trackpoints_csv = f.save_trackpoints()
         summaries_csv = f.save_summaries()
         return read_dataframe(trackpoints_csv), wrap_vehicle_type(summaries_csv)
+
+
+def get_dataset0(url):
+    import tempfile
+    with tempfile.TemporaryDirectory() as tmpdirname:
+        return get_dataset(url, tmpdirname)
+
 
 
 def subset_by_dates(df, days: [str]):
