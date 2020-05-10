@@ -8,7 +8,7 @@ documenting the Rider project.
    :maxdepth: 4
    :caption: Contents:
 
-    
+   rider
 
 Indices and tables
 ==================
