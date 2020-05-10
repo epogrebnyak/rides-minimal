@@ -1,14 +1,43 @@
-"""Read JSON files."""
+"""Download and read JSON files."""
 
+import csv
 from pathlib import Path
 import json
 import os
 from typing import Callable
-from dataclasses import dataclass
+import zipfile
 
 from tqdm import tqdm
+import requests
 
-__all__ = ["DataFolder"]
+__all__ = ["dataprep"]
+
+
+def make_filename(url):
+    return url.split("/")[-1]
+
+
+def get_from_web(url, file: str):
+    print("Downloading", url)
+    r = requests.get(url)
+    print("Writing to", file)
+    Path(file).write_bytes(r.content)
+    print("Done")
+
+
+def download(url: str, file: str) -> str:
+    if os.path.exists(file):
+        print("File already exists:", file)
+    else:
+        get_from_web(url, file)
+    return file
+
+
+def unzip(file: str, folder: str):
+    print("Unpacking JSON files to", folder)
+    with zipfile.ZipFile(file, "r") as zip_ref:
+        zip_ref.extractall(folder)
+    print("Done")
 
 
 def filenames(directory: str):
@@ -44,15 +73,13 @@ def summaries(folder: str):
 
 
 def save_to_csv(filename, stream, keys):
-    import csv
-
     with open(filename, "w", encoding="utf-8") as f:
         w = csv.DictWriter(f, keys)
         w.writeheader()
         w.writerows(tqdm(stream))
 
 
-def save(filename: str, getter: Callable, source_folder: str):
+def save(getter: Callable, filename: str, source_folder: str):
     if not os.path.exists(filename):
         print("Creating", filename)
         keys = next(getter(source_folder)).keys()
@@ -64,26 +91,16 @@ def save(filename: str, getter: Callable, source_folder: str):
     return filename
 
 
-@dataclass
-class DataFolder:
-    directory: str
-    trackpoints_csv: str = "df_full.csv"
-    summaries_csv: str = "summaries.csv"
+def dataprep(url, directory):
+    def path(filename):
+        return os.path.join(directory, filename)
 
-    def path(self, filename):
-        return str(Path(self.directory) / filename)
-
-    @property
-    def json_folder(self):
-        return self.path("jsons")
-
-    def download(self, url: str):
-        from .download import download_and_unzip
-
-        download_and_unzip(url, self.json_folder)
-
-    def save_trackpoints(self):
-        return save(self.path(self.trackpoints_csv), trackpoints, self.json_folder)
-
-    def save_summaries(self):
-        return save(self.path(self.summaries_csv), summaries, self.json_folder)
+    json_dir = path("jsons")
+    zipfile = path(make_filename(url))
+    os.makedirs(json_dir, exist_ok=True)
+    download(url, zipfile)
+    if not filenames(json_dir):
+        unzip(zipfile, json_dir)
+    a = save(trackpoints, path("df_full.csv"), json_dir)
+    b = save(summaries, path("summaries.csv"), json_dir)
+    return a, b

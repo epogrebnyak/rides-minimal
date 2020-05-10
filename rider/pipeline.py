@@ -1,7 +1,9 @@
+from typing import Callable, List
+
 import pandas as pd
 
 from rider import (
-    DataFolder,
+    dataprep,
     wrap_vehicle_type,
     get_trips_and_routes,
     default_search,
@@ -10,22 +12,19 @@ from rider import (
 )
 
 
-def get_date(df):
+def _get_date(df):
     return df.time.apply(lambda x: pd.Timestamp(x, unit="s").date().__str__())
 
 
 def read_dataframe(filename, **kwargs):
     df_full = pd.read_csv(filename, usecols=["car", "time", "lat", "lon"], **kwargs)
-    df_full["date"] = get_date(df_full)
+    df_full["date"] = _get_date(df_full)
     return df_full[["car", "date", "time", "lat", "lon"]]
 
 
 def get_dataset(url, folder):
-    f = DataFolder(folder)
-    f.download(url)
-    trackpoints_csv = f.save_trackpoints()
-    summaries_csv = f.save_summaries()
-    return read_dataframe(trackpoints_csv), wrap_vehicle_type(summaries_csv)
+    full_csv, summaries_csv = dataprep(url, folder)
+    return read_dataframe(full_csv), wrap_vehicle_type(summaries_csv)
 
 
 def get_dataset0(url):
@@ -35,24 +34,34 @@ def get_dataset0(url):
         return get_dataset(url, tmpdirname)
 
 
-def subset_by_dates(df, days: [str]):
+def _subset_by_dates(df, days: [str]):
     ix = df.date.isin(days)
     return df[ix]
 
 
-def subset_by_vehicle_types(df, types: [str], vehicle_type_resolver):
+def _subset_by_vehicle_types(df, types: [str], vehicle_type_resolver):
     ix = df.car.apply(vehicle_type_resolver).isin(types)
     return df[ix]
 
 
-def make_subset(full_csv, summaries_csv, days, types):
-    subset_df = read_dataframe(full_csv)
+def make_subset(
+    df_full: pd.DataFrame,
+    vehicle_type: Callable,
+    days: List[str] = [],
+    types: List[str] = [],
+):
+    subset_df = df_full.copy()
     if days:
-        subset_df = subset_by_dates(subset_df, days)
+        subset_df = _subset_by_dates(subset_df, days)
     if types:
-        vehicle_type = wrap_vehicle_type(summaries_csv)
-        subset_df = subset_by_vehicle_types(subset_df, types, vehicle_type)
+        subset_df = _subset_by_vehicle_types(subset_df, types, vehicle_type)
     return subset_df
+
+
+def make_subset_from_files(full_csv, summaries_csv, days, types):
+    return make_subset(
+        read_dataframe(full_csv), wrap_vehicle_type(summaries_csv), days, types
+    )
 
 
 def default_results(df, limit=None):
@@ -65,9 +74,6 @@ def default_results(df, limit=None):
 
 
 def default_pipeline(url, data_folder, days=None, types=None, limit=None):
-    f = DataFolder(data_folder)
-    f.download(url)
-    trackpoints_csv = f.save_trackpoints()
-    summaries_csv = f.save_summaries()
-    df = make_subset(trackpoints_csv, summaries_csv, days, types)
+    full_csv, summaries_csv = dataprep(url, data_folder)
+    df = make_subset_from_files(full_csv, summaries_csv, days, types)
     return default_results(df, limit)

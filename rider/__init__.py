@@ -1,16 +1,15 @@
-from .files import DataFolder
+from .files import dataprep
 from .vehicles import wrap_vehicle_type
-from .dataframe import pairs_dataframe
 from .routes import (
     get_trips_and_routes,
     trips_dataframe,
-    # n_segments_by_distance,
 )
-from .search import default_search, search
+from .search import default_search
+from .dataframe import pairs_dataframe
 from .pipeline import (
     read_dataframe,
-    subset_by_dates,
-    subset_by_vehicle_types,
+    make_subset,
+    make_subset_from_files,
     get_dataset,
     get_dataset0,
     default_pipeline,
