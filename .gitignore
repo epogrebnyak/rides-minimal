@@ -3,6 +3,7 @@ data/
 data*/
 *.zip
 *.csv
+.vscode/
 !sample_jsons.zip
 
 # Byte-compiled / optimized / DLL files
