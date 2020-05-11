@@ -7,5 +7,4 @@ project = "rider"
 author = "Evgeniy Pogrebnyak, Stepan Zimin"
 copyright = f"2020, {author}"
 extensions = ["sphinx.ext.autodoc"]
-html_theme = "sphinxdoc" 
-
+html_theme = "sphinxdoc"

@@ -3,7 +3,7 @@ import pandas as pd
 # Created via:
 # routes[0].sample(20).sort_values("time", ascending=True).to_dict()
 
-r = pd.DataFrame(
+r_ = pd.DataFrame(
     {
         "lat": {
             7083240: 54.6144833333,
@@ -74,8 +74,16 @@ r = pd.DataFrame(
     }
 )
 
-from rider.routes import make_route
+from rider.routes import make_route, parse_command
+
+r = make_route(r_)
 
 
 def test_milage():
-    assert make_route(r).milage == 26.38
+    assert r.milage == 26.38
+
+
+def test_parse_command():
+    a = dict(func="n_segments_by_distance", arg=10)
+    df = parse_command(a)(r)
+    assert len(df) == 11

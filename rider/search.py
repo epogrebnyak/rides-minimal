@@ -5,8 +5,8 @@ import numpy as np  # type: ignore
 from scipy.spatial.distance import cdist  # type: ignore
 from tqdm import tqdm  # type: ignore
 
-from .helpers import safe_distance_2
-from .routes import Route, points, n_segments_by_distance, distance_increment
+from rider.helpers import safe_distance_2
+from rider.routes import Route, points, n_segments_by_distance, distance_increment
 
 
 def proximity(r1, r2):

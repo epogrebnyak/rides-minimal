@@ -6,9 +6,17 @@ import numpy as np  # type: ignore
 
 pd.set_option("mode.chained_assignment", None)
 
-from .helpers import safe_distance
+from rider.helpers import safe_distance
 
-__all__ = ("Trip trips_dataframe " "Route make_route get_trips_and_routes").split()
+__all__ = (
+    """Trip
+           trips_dataframe 
+           Route
+           make_route 
+           get_trips_and_routes
+           n_segments_by_distance
+           distance_increment"""
+).split()
 
 
 @dataclass
@@ -185,44 +193,9 @@ def distance_increment(step_km: float):
     return accept
 
 
-# -- new
-
-
-def _increment(step, accum_func):
-    def accept(route: Route):
-        xs = accum_func(route)
-        ix = growing_index(xs, accum_func)
-        return route.iloc[ix]
-
-    return accept
-
-
-def _nsegments(n, accum_func):
-    def accept(route: Route):
-        xs = accum_func(route).tolist()
-        ix = find_index(xs, n)
-        return route.iloc[ix]
-
-    return accept
-
-
-def increment(self, minutes=None, km=None):
-
-    if minutes and not km:
-        return _increment(minutes, duration_acc)
-
-    if km and not minutes:
-        return _increment(km, milage_acc)
-
-    raise ValueError([minutes, km])
-
-
-@dataclass
-class n_segments:
-    n: int
-
-    def by_duration(self):
-        return _nsegments(self.n, duration_acc)
-
-    def by_distance(self):
-        return _nsegments(self.n, milage_acc)
+def parse_command(d: dict) -> Callable:
+    mapper = dict(
+        n_segments_by_distance=n_segments_by_distance,
+        distance_increment=distance_increment,
+    )
+    return mapper[d["func"]](d["arg"])
