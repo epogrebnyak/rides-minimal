@@ -51,7 +51,7 @@ def make_subset(
     days: List[str] = [],
     types: List[str] = [],
 ):
-    print("Creating a sunset of data...")
+    print("Creating a subset of larger data dataset...")
     subset_df = df_full.copy()
     if days:
         subset_df = _subset_by_dates(subset_df, days)
