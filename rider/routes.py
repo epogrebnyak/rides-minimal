@@ -8,8 +8,7 @@ pd.set_option("mode.chained_assignment", None)
 
 from .helpers import safe_distance
 
-__all__ = ("Trip trips_dataframe "
-           "Route make_route get_trips_and_routes").split()
+__all__ = ("Trip trips_dataframe " "Route make_route get_trips_and_routes").split()
 
 
 @dataclass
@@ -81,11 +80,11 @@ def milage(route) -> float:
     return round(milage_acc(route).iloc[-1], 2)
 
 
-def points(route_df: Route) -> np.ndarray:
-    return np.array(route_df.coord.to_list())
+def points(route: Route) -> np.ndarray:
+    return np.array(route.coord.to_list())
 
 
-def date(route):
+def date(route: Route):
     return route.iloc[0].time.date()
 
 
@@ -105,10 +104,11 @@ def end_time(route):
     return nth_timestamp(route, -1)
 
 
-def true_quantile(xs, q):
+def quantile(xs, q):
     """Квантиль накопленной суммы списка xs без учета повторов. 
      
      np.quantile дает неправильный для нас результат:
+     
      np.quantile(xs, 0.9) может быть равно len(xs),
      если в хвосте xs много повторов.
   """
@@ -119,7 +119,7 @@ def true_quantile(xs, q):
 
 
 def where(xs, q):
-    i = true_quantile(xs, q)
+    i = quantile(xs, q)
     return np.searchsorted(xs, xs[i], side="left")
 
 

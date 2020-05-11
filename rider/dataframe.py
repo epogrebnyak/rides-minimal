@@ -1,9 +1,10 @@
-"""Representaion of results.""" 
+"""Representaion of results."""
 
 from typing import List
 import pandas as pd  # type: ignore
 
 __all__ = ["pairs_dataframe"]
+
 
 def overlap(df):
     return (
@@ -20,7 +21,7 @@ def extend(df, milages):
     return df
 
 
-def pairs_dataframe(dicts: List[dict] , milages: List[float]):
+def pairs_dataframe(dicts: List[dict], milages: List[float]):
     """
     Создать датафрейм с парными характеристиками поездок
     на основе списков *dicts* и *milages*.    

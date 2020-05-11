@@ -179,12 +179,13 @@ def search(
     return result
 
 
+DEFAULT_PARAM = dict(
+    simplify_with=n_segments_by_distance(n=10),
+    search_radius_1=10,
+    refine_with=distance_increment(step_km=2.5),
+    search_radius_2=2.5 * 1.2,
+)
+
+
 def default_search(routes: List[Route], limit=None):
-    return search(
-        routes,
-        simplify_with=n_segments_by_distance(n=10),
-        search_radius_1=10,
-        refine_with=distance_increment(step_km=2.5),
-        search_radius_2=2.5 * 1.2,
-        limit=limit,
-    )
+    return search(routes, limit=limit, **DEFAULT_PARAM)

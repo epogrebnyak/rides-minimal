@@ -2,11 +2,11 @@ from typing import List, Callable
 
 import pandas as pd  # type: ignore
 
-__all__ = ['types', 'wrap_vehicle_type'] 
+__all__ = ["list_types", "wrap_vehicle_type"]
 
 
 def list_types() -> List:
-    """Перечислить типы автомобилей.""" 
+    """Перечислить типы автомобилей."""
     return ["bus", "freight", "passenger", "special"]
 
 
