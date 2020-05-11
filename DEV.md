@@ -24,6 +24,9 @@
 - [ ] Поиск сходимости по остановкам
 - [ ] Количество машин рядом с машиной в течение дня vs пробег
 
+## WONTFIX
+
+- [ ] https://github.com/epogrebnyak/rides-minimal/issues/15
 
 ## Сделано
 
