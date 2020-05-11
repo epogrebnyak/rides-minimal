@@ -21,10 +21,10 @@ rider.files module
    :undoc-members:
    :show-inheritance:
 
-rider.helpers module
---------------------
+rider.distance module
+---------------------
 
-.. automodule:: rider.helpers
+.. automodule:: rider.distance
    :members:
    :undoc-members:
    :show-inheritance:

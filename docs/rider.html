@@ -38,7 +38,7 @@
 <li><a class="reference internal" href="#">API Reference</a><ul>
 <li><a class="reference internal" href="#module-rider.dataframe">rider.dataframe module</a></li>
 <li><a class="reference internal" href="#module-rider.files">rider.files module</a></li>
-<li><a class="reference internal" href="#module-rider.helpers">rider.helpers module</a></li>
+<li><a class="reference internal" href="#module-rider.distance">rider.distance module</a></li>
 <li><a class="reference internal" href="#module-rider.pipeline">rider.pipeline module</a></li>
 <li><a class="reference internal" href="#module-rider.plotting">rider.plotting module</a></li>
 <li><a class="reference internal" href="#module-rider.routes">rider.routes module</a></li>
@@ -82,7 +82,7 @@
 <ul class="simple">
 <li><p><a class="reference internal" href="#module-rider.dataframe" id="id1">rider.dataframe module</a></p></li>
 <li><p><a class="reference internal" href="#module-rider.files" id="id2">rider.files module</a></p></li>
-<li><p><a class="reference internal" href="#module-rider.helpers" id="id3">rider.helpers module</a></p></li>
+<li><p><a class="reference internal" href="#module-rider.distance" id="id3">rider.distance module</a></p></li>
 <li><p><a class="reference internal" href="#module-rider.pipeline" id="id4">rider.pipeline module</a></p></li>
 <li><p><a class="reference internal" href="#module-rider.plotting" id="id5">rider.plotting module</a></p></li>
 <li><p><a class="reference internal" href="#module-rider.routes" id="id6">rider.routes module</a></p></li>
@@ -113,31 +113,28 @@ Return paths to two CSV files.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="module-rider.helpers">
-<span id="rider-helpers-module"></span><h2>rider.helpers module<a class="headerlink" href="#module-rider.helpers" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-rider.distance">
+<span id="rider-distance-module"></span><h2>rider.distance module<a class="headerlink" href="#module-rider.distance" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
-<dt id="rider.helpers.distance_km">
-<code class="sig-prename descclassname">rider.helpers.</code><code class="sig-name descname">distance_km</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span><span class="p">:</span> <span class="n">tuple</span></em>, <em class="sig-param"><span class="n">b</span><span class="p">:</span> <span class="n">tuple</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rider.helpers.distance_km" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt id="rider.helpers.from_cache">
-<code class="sig-prename descclassname">rider.helpers.</code><code class="sig-name descname">from_cache</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">getter</span><span class="p">:</span> <span class="n">Callable</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rider.helpers.from_cache" title="Permalink to this definition">¶</a></dt>
-<dd><p>Прочитать объект из <em>filename</em> или
-создать объект с помощью getter и сохранить 
-его в <em>filename</em>.
-Возвращает значение getter().</p>
+<dt id="rider.distance.distance_km">
+<code class="sig-prename descclassname">rider.distance.</code><code class="sig-name descname">distance_km</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span><span class="p">:</span> <span class="n">Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">b</span><span class="p">:</span> <span class="n">Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rider.distance.distance_km" title="Permalink to this definition">¶</a></dt>
+<dd><p>Измеренеи расстояний. Использует great_circle():
+менее точен, но быстрее чем geopy.distance.distance. См.
+<a class="reference external" href="https://geopy.readthedocs.io/en/stable/#module-geopy.distance">https://geopy.readthedocs.io/en/stable/#module-geopy.distance</a></p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="rider.helpers.safe_distance">
-<code class="sig-prename descclassname">rider.helpers.</code><code class="sig-name descname">safe_distance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span><span class="p">:</span> <span class="n">Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">b</span><span class="p">:</span> <span class="n">Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; float<a class="headerlink" href="#rider.helpers.safe_distance" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="rider.distance.safe_distance">
+<code class="sig-prename descclassname">rider.distance.</code><code class="sig-name descname">safe_distance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span><span class="p">:</span> <span class="n">Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">b</span><span class="p">:</span> <span class="n">Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; float<a class="headerlink" href="#rider.distance.safe_distance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Безопасный доступ к distance_km.
+Используется с routes.distance_delta.</p>
+</dd></dl>
 
 <dl class="py function">
-<dt id="rider.helpers.safe_distance_2">
-<code class="sig-prename descclassname">rider.helpers.</code><code class="sig-name descname">safe_distance_2</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span><span class="p">:</span> <span class="n">Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">b</span><span class="p">:</span> <span class="n">Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; float<a class="headerlink" href="#rider.helpers.safe_distance_2" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="rider.distance.safe_distance_2">
+<code class="sig-prename descclassname">rider.distance.</code><code class="sig-name descname">safe_distance_2</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span><span class="p">:</span> <span class="n">Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">b</span><span class="p">:</span> <span class="n">Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; float<a class="headerlink" href="#rider.distance.safe_distance_2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Используется с cdist.</p>
+</dd></dl>
 
 </div>
 <div class="section" id="module-rider.pipeline">
@@ -280,6 +277,16 @@ Return paths to two CSV files.</p>
 <dl class="py function">
 <dt id="rider.routes.get_trips_and_routes">
 <code class="sig-prename descclassname">rider.routes.</code><code class="sig-name descname">get_trips_and_routes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>List<span class="p">[</span><a class="reference internal" href="#rider.routes.Trip" title="rider.routes.Trip">rider.routes.Trip</a><span class="p">]</span><span class="p">, </span>List<span class="p">[</span><a class="reference internal" href="#rider.routes.Route" title="rider.routes.Route">rider.routes.Route</a><span class="p">]</span><span class="p">]</span><a class="headerlink" href="#rider.routes.get_trips_and_routes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="rider.routes.n_segments_by_distance">
+<code class="sig-prename descclassname">rider.routes.</code><code class="sig-name descname">n_segments_by_distance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rider.routes.n_segments_by_distance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="rider.routes.distance_increment">
+<code class="sig-prename descclassname">rider.routes.</code><code class="sig-name descname">distance_increment</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">step_km</span><span class="p">:</span> <span class="n">float</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rider.routes.distance_increment" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
