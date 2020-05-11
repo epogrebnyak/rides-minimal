@@ -33,9 +33,6 @@ def pairs_dataframe(dicts: List[dict], milages: List[float]):
 
 
 def trip_dicts(trips, routes, milages, summary_df):
-    """
-    Создать датафрейм с характеристиками поездок.    
-    """
     cs = CarSummary(summary_df) 
     f = cs.type
     g = cs.category
@@ -46,4 +43,7 @@ def trip_dicts(trips, routes, milages, summary_df):
 
 
 def trips_dataframe(trips, routes, milages, summary_df):
+    """
+    Создать датафрейм с характеристиками поездок.    
+    """
     return pd.DataFrame(trip_dicts(trips, routes, milages, summary_df))
