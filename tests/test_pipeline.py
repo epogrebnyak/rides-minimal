@@ -12,3 +12,5 @@ def test_default_pipeline(tmpdir):
     (trips_df, pairs_df), _ = default_pipeline(**job)
     print(trips_df)
     print(pairs_df)
+    assert len(trips_df) == 4
+    assert len(pairs_df) == 6
