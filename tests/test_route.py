@@ -74,7 +74,7 @@ r_ = pd.DataFrame(
     }
 )
 
-from rider.routes import make_route, parse_command
+from rider.routes import make_route, DistanceFilter
 
 r = make_route(r_)
 
@@ -83,7 +83,6 @@ def test_milage():
     assert r.milage == 26.38
 
 
-def test_parse_command():
-    a = dict(func="n_segments_by_distance", arg=10)
-    df = parse_command(a)(r)
-    assert len(df) == 11
+def test_DistanceFilter():
+    assert DistanceFilter(n_segments=10).apply(r).__len__() == 11
+    assert DistanceFilter(step_km=2.5).apply(r).__len__() == 8  

@@ -192,9 +192,16 @@ def distance_increment(step_km: float):
     return accept
 
 
-def parse_command(d: dict) -> Callable:
-    mapper = dict(
-        n_segments_by_distance=n_segments_by_distance,
-        distance_increment=distance_increment,
-    )
-    return mapper[d["func"]](d["arg"])
+class DistanceFilter():
+     def __init__(self, *, n_segments=None, step_km=None):
+         if n_segments and step_km is None:
+             self.callable = n_segments_by_distance(n_segments)             
+         elif step_km and n_segments is None:
+             self.callable = distance_increment(step_km)
+         else:             
+             raise ValueError("Expecting either 'n_segments' or 'step_km' "
+                              "keyword argument")
+             
+     def apply(self, r : Route) -> Route:        
+         return self.callable(r)
+     
