@@ -9,13 +9,12 @@ pd.set_option("mode.chained_assignment", None)
 from rider.distance import safe_distance
 
 __all__ = (
-    """Trip
-           trips_dataframe 
+    """Trip           
            Route
            make_route 
            get_trips_and_routes
-           n_segments_by_distance
-           distance_increment"""
+           Increment
+           Segments"""
 ).split()
 
 

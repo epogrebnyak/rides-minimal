@@ -13,7 +13,7 @@ from rider.dataframe import pairs_dataframe, trips_dataframe
 __all__ = [
     "get_dataset",
     "make_subset",
-    "default_results",
+    "results",
     "default_pipeline",
 ]
 

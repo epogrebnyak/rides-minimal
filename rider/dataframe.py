@@ -19,6 +19,7 @@ def extend(df, milages):
     df["cov"] = df.cov_1 + df.cov_2
     df["len_1"] = df.id_1.apply(km)
     df["len_2"] = df.id_2.apply(km)
+    df['len'] = df["len_1"] + df["len_2"]
     df["op"] = overlap(df)
     return df
 
@@ -34,13 +35,11 @@ def pairs_dataframe(dicts: List[dict], milages: List[float]):
 
 def trip_dicts(trips, routes, milages, summary_df):
     cs = CarSummary(summary_df)
-    f = cs.type
-    g = cs.category
     for t, r, m in zip(trips, routes, milages):
         yield dict(
             car=t.car,
-            type=f(t.car),
-            cat=g(t.car),
+            type=cs.type(t.car),
+            cat=cs.category(t.car),
             start=r.start_time,
             end=r.end_time,
             km=m,

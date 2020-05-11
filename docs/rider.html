@@ -92,12 +92,17 @@
 </div>
 <div class="section" id="module-rider.dataframe">
 <span id="rider-dataframe-module"></span><h2>rider.dataframe module<a class="headerlink" href="#module-rider.dataframe" title="Permalink to this headline">¶</a></h2>
-<p>Representaion of results.</p>
+<p>Representaion of results as dataframes.</p>
 <dl class="py function">
 <dt id="rider.dataframe.pairs_dataframe">
 <code class="sig-prename descclassname">rider.dataframe.</code><code class="sig-name descname">pairs_dataframe</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dicts</span><span class="p">:</span> <span class="n">List<span class="p">[</span>dict<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">milages</span><span class="p">:</span> <span class="n">List<span class="p">[</span>float<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rider.dataframe.pairs_dataframe" title="Permalink to this definition">¶</a></dt>
-<dd><p>Создать датафрейм с парными характеристиками поездок
-на основе списков <em>dicts</em> и <em>milages</em>.</p>
+<dd><p>Создать датафрейм с парными характеристиками поездок.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="rider.dataframe.trips_dataframe">
+<code class="sig-prename descclassname">rider.dataframe.</code><code class="sig-name descname">trips_dataframe</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">trips</span></em>, <em class="sig-param"><span class="n">routes</span></em>, <em class="sig-param"><span class="n">milages</span></em>, <em class="sig-param"><span class="n">summary_df</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rider.dataframe.trips_dataframe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Создать датафрейм с характеристиками поездок.</p>
 </dd></dl>
 
 </div>
@@ -118,7 +123,7 @@ Return paths to two CSV files.</p>
 <dl class="py function">
 <dt id="rider.distance.distance_km">
 <code class="sig-prename descclassname">rider.distance.</code><code class="sig-name descname">distance_km</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span><span class="p">:</span> <span class="n">Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">b</span><span class="p">:</span> <span class="n">Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rider.distance.distance_km" title="Permalink to this definition">¶</a></dt>
-<dd><p>Измеренеи расстояний. Использует great_circle():
+<dd><p>Измерение расстояний между парами координат. Использует great_circle():
 менее точен, но быстрее чем geopy.distance.distance. См.
 <a class="reference external" href="https://geopy.readthedocs.io/en/stable/#module-geopy.distance">https://geopy.readthedocs.io/en/stable/#module-geopy.distance</a></p>
 </dd></dl>
@@ -140,38 +145,26 @@ Return paths to two CSV files.</p>
 <div class="section" id="module-rider.pipeline">
 <span id="rider-pipeline-module"></span><h2>rider.pipeline module<a class="headerlink" href="#module-rider.pipeline" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
-<dt id="rider.pipeline.default_pipeline">
-<code class="sig-prename descclassname">rider.pipeline.</code><code class="sig-name descname">default_pipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">url</span></em>, <em class="sig-param"><span class="n">data_folder</span></em>, <em class="sig-param"><span class="n">days</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">types</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">limit</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rider.pipeline.default_pipeline" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt id="rider.pipeline.default_results">
-<code class="sig-prename descclassname">rider.pipeline.</code><code class="sig-name descname">default_results</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">limit</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rider.pipeline.default_results" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
 <dt id="rider.pipeline.get_dataset">
-<code class="sig-prename descclassname">rider.pipeline.</code><code class="sig-name descname">get_dataset</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">url</span></em>, <em class="sig-param"><span class="n">folder</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rider.pipeline.get_dataset" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt id="rider.pipeline.get_dataset0">
-<code class="sig-prename descclassname">rider.pipeline.</code><code class="sig-name descname">get_dataset0</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">url</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rider.pipeline.get_dataset0" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="sig-prename descclassname">rider.pipeline.</code><code class="sig-name descname">get_dataset</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">url</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">folder</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>pandas.core.frame.DataFrame<span class="p">, </span>pandas.core.frame.DataFrame<span class="p">]</span><a class="headerlink" href="#rider.pipeline.get_dataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Получить основные переменные из данных по адресу <em>url</em>.
+Если путь <em>folder</em> указан, файлы будут сохранены и переиспользоваться.
+Если путь <em>folder</em> не указан, будет использован временный каталог.</p>
+</dd></dl>
 
 <dl class="py function">
 <dt id="rider.pipeline.make_subset">
-<code class="sig-prename descclassname">rider.pipeline.</code><code class="sig-name descname">make_subset</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df_full</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span></em>, <em class="sig-param"><span class="n">vehicle_type</span><span class="p">:</span> <span class="n">Callable</span></em>, <em class="sig-param"><span class="n">days</span><span class="p">:</span> <span class="n">List<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">types</span><span class="p">:</span> <span class="n">List<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">[]</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rider.pipeline.make_subset" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rider.pipeline.</code><code class="sig-name descname">make_subset</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df_full</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span></em>, <em class="sig-param"><span class="n">df_summaries</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span></em>, <em class="sig-param"><span class="n">days</span><span class="p">:</span> <span class="n">List<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">types</span><span class="p">:</span> <span class="n">List<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">[]</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rider.pipeline.make_subset" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
-<dt id="rider.pipeline.make_subset_from_files">
-<code class="sig-prename descclassname">rider.pipeline.</code><code class="sig-name descname">make_subset_from_files</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">full_csv</span></em>, <em class="sig-param"><span class="n">summaries_csv</span></em>, <em class="sig-param"><span class="n">days</span></em>, <em class="sig-param"><span class="n">types</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rider.pipeline.make_subset_from_files" title="Permalink to this definition">¶</a></dt>
+<dt id="rider.pipeline.results">
+<code class="sig-prename descclassname">rider.pipeline.</code><code class="sig-name descname">results</code><span class="sig-paren">(</span><em class="sig-param">data_df</em>, <em class="sig-param">summary_df</em>, <em class="sig-param">limit=None</em>, <em class="sig-param">search_param={'refine_with': &lt;function distance_increment.&lt;locals&gt;.accept&gt;</em>, <em class="sig-param">'search_radius_1': 10</em>, <em class="sig-param">'search_radius_2': 3.0</em>, <em class="sig-param">'simplify_with': &lt;function segments_by_distance.&lt;locals&gt;.&lt;lambda&gt;&gt;}</em><span class="sig-paren">)</span><a class="headerlink" href="#rider.pipeline.results" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
-<dt id="rider.pipeline.read_dataframe">
-<code class="sig-prename descclassname">rider.pipeline.</code><code class="sig-name descname">read_dataframe</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rider.pipeline.read_dataframe" title="Permalink to this definition">¶</a></dt>
+<dt id="rider.pipeline.default_pipeline">
+<code class="sig-prename descclassname">rider.pipeline.</code><code class="sig-name descname">default_pipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">url</span></em>, <em class="sig-param"><span class="n">data_folder</span></em>, <em class="sig-param"><span class="n">days</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">types</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">limit</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rider.pipeline.default_pipeline" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
@@ -253,18 +246,23 @@ Return paths to two CSV files.</p>
 
 </dd></dl>
 
-<dl class="py function">
-<dt id="rider.routes.trips_dataframe">
-<code class="sig-prename descclassname">rider.routes.</code><code class="sig-name descname">trips_dataframe</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">trips</span></em>, <em class="sig-param"><span class="n">routes</span></em>, <em class="sig-param"><span class="n">milages</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rider.routes.trips_dataframe" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 <dl class="py class">
 <dt id="rider.routes.Route">
 <em class="property">class </em><code class="sig-prename descclassname">rider.routes.</code><code class="sig-name descname">Route</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">index</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Collection<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">columns</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Collection<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">dtype</span><span class="p">:</span> <span class="n">Union[str, numpy.dtype, ExtensionDtype, None]</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">copy</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rider.routes.Route" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.core.frame.DataFrame</span></code></p>
 <dl class="py method">
+<dt id="rider.routes.Route.end_time">
+<em class="property">property </em><code class="sig-name descname">end_time</code><a class="headerlink" href="#rider.routes.Route.end_time" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt id="rider.routes.Route.milage">
 <em class="property">property </em><code class="sig-name descname">milage</code><a class="headerlink" href="#rider.routes.Route.milage" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="rider.routes.Route.start_time">
+<em class="property">property </em><code class="sig-name descname">start_time</code><a class="headerlink" href="#rider.routes.Route.start_time" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -279,15 +277,37 @@ Return paths to two CSV files.</p>
 <code class="sig-prename descclassname">rider.routes.</code><code class="sig-name descname">get_trips_and_routes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>List<span class="p">[</span><a class="reference internal" href="#rider.routes.Trip" title="rider.routes.Trip">rider.routes.Trip</a><span class="p">]</span><span class="p">, </span>List<span class="p">[</span><a class="reference internal" href="#rider.routes.Route" title="rider.routes.Route">rider.routes.Route</a><span class="p">]</span><span class="p">]</span><a class="headerlink" href="#rider.routes.get_trips_and_routes" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="py function">
-<dt id="rider.routes.n_segments_by_distance">
-<code class="sig-prename descclassname">rider.routes.</code><code class="sig-name descname">n_segments_by_distance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rider.routes.n_segments_by_distance" title="Permalink to this definition">¶</a></dt>
+<dl class="py class">
+<dt id="rider.routes.Increment">
+<em class="property">class </em><code class="sig-prename descclassname">rider.routes.</code><code class="sig-name descname">Increment</code><a class="headerlink" href="#rider.routes.Increment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="rider.routes.Increment.by_distance">
+<em class="property">static </em><code class="sig-name descname">by_distance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">step_km</span><span class="p">:</span> <span class="n">float</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rider.routes.Increment.by_distance" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="py function">
-<dt id="rider.routes.distance_increment">
-<code class="sig-prename descclassname">rider.routes.</code><code class="sig-name descname">distance_increment</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">step_km</span><span class="p">:</span> <span class="n">float</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rider.routes.distance_increment" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="rider.routes.Increment.by_time">
+<em class="property">static </em><code class="sig-name descname">by_time</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">minutes</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rider.routes.Increment.by_time" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="rider.routes.Segments">
+<em class="property">class </em><code class="sig-prename descclassname">rider.routes.</code><code class="sig-name descname">Segments</code><a class="headerlink" href="#rider.routes.Segments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="rider.routes.Segments.by_distance">
+<em class="property">static </em><code class="sig-name descname">by_distance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rider.routes.Segments.by_distance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="rider.routes.Segments.by_time">
+<em class="property">static </em><code class="sig-name descname">by_time</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rider.routes.Segments.by_time" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
 
 </div>
 <div class="section" id="module-rider.search">
@@ -392,11 +412,6 @@ Return paths to two CSV files.</p>
 <dd></dd></dl>
 
 <dl class="py function">
-<dt id="rider.search.default_search">
-<code class="sig-prename descclassname">rider.search.</code><code class="sig-name descname">default_search</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">routes</span><span class="p">:</span> <span class="n">List<span class="p">[</span><a class="reference internal" href="#rider.routes.Route" title="rider.routes.Route">rider.routes.Route</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">limit</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rider.search.default_search" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
 <dt id="rider.search.get_combinations">
 <code class="sig-prename descclassname">rider.search.</code><code class="sig-name descname">get_combinations</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>Tuple<span class="p">[</span>int<span class="p">, </span>int<span class="p">]</span><span class="p">]</span><a class="headerlink" href="#rider.search.get_combinations" title="Permalink to this definition">¶</a></dt>
 <dd><p>Выбор комбинаций из n по 2.</p>
@@ -417,17 +432,24 @@ Return paths to two CSV files.</p>
 <span id="rider-vehicles-module"></span><h2>rider.vehicles module<a class="headerlink" href="#module-rider.vehicles" title="Permalink to this headline">¶</a></h2>
 <p>Find vehicle type.</p>
 <dl class="py function">
-<dt id="rider.vehicles.list_types">
-<code class="sig-prename descclassname">rider.vehicles.</code><code class="sig-name descname">list_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List<a class="headerlink" href="#rider.vehicles.list_types" title="Permalink to this definition">¶</a></dt>
-<dd><p>Перечислить типы автомобилей.</p>
-</dd></dl>
+<dt id="rider.vehicles.get_summaries">
+<code class="sig-prename descclassname">rider.vehicles.</code><code class="sig-name descname">get_summaries</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rider.vehicles.get_summaries" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
-<dl class="py function">
-<dt id="rider.vehicles.wrap_vehicle_type">
-<code class="sig-prename descclassname">rider.vehicles.</code><code class="sig-name descname">wrap_vehicle_type</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; Callable<a class="headerlink" href="#rider.vehicles.wrap_vehicle_type" title="Permalink to this definition">¶</a></dt>
-<dd><p>Вернуть функцию, которая по идентификатору автомобиля
-будет определять его тип.
-Функция создается на основе данных из файла <em>filename</em>.</p>
+<dl class="py class">
+<dt id="rider.vehicles.CarSummary">
+<em class="property">class </em><code class="sig-prename descclassname">rider.vehicles.</code><code class="sig-name descname">CarSummary</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rider.vehicles.CarSummary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="rider.vehicles.CarSummary.category">
+<code class="sig-name descname">category</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">car_id</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rider.vehicles.CarSummary.category" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="rider.vehicles.CarSummary.type">
+<code class="sig-name descname">type</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">car_id</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rider.vehicles.CarSummary.type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </div>
