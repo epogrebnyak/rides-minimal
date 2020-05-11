@@ -1,1 +1,1 @@
-sphinx-build docs/source docs -c . 
+sphinx-build documentation docs

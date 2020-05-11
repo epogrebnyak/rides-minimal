@@ -263,7 +263,7 @@ Return paths to two CSV files.</p>
 
 <dl class="py class">
 <dt id="rider.routes.Route">
-<em class="property">class </em><code class="sig-prename descclassname">rider.routes.</code><code class="sig-name descname">Route</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">index</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">columns</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">dtype</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">copy</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rider.routes.Route" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">rider.routes.</code><code class="sig-name descname">Route</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">index</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Collection<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">columns</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Collection<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">dtype</span><span class="p">:</span> <span class="n">Union[str, numpy.dtype, ExtensionDtype, None]</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">copy</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#rider.routes.Route" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.core.frame.DataFrame</span></code></p>
 <dl class="py method">
 <dt id="rider.routes.Route.milage">
@@ -408,6 +408,13 @@ Return paths to two CSV files.</p>
 </div>
 <div class="section" id="module-rider.vehicles">
 <span id="rider-vehicles-module"></span><h2>rider.vehicles module<a class="headerlink" href="#module-rider.vehicles" title="Permalink to this headline">¶</a></h2>
+<p>Find vehicle type.</p>
+<dl class="py function">
+<dt id="rider.vehicles.list_types">
+<code class="sig-prename descclassname">rider.vehicles.</code><code class="sig-name descname">list_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List<a class="headerlink" href="#rider.vehicles.list_types" title="Permalink to this definition">¶</a></dt>
+<dd><p>Перечислить типы автомобилей.</p>
+</dd></dl>
+
 <dl class="py function">
 <dt id="rider.vehicles.wrap_vehicle_type">
 <code class="sig-prename descclassname">rider.vehicles.</code><code class="sig-name descname">wrap_vehicle_type</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; Callable<a class="headerlink" href="#rider.vehicles.wrap_vehicle_type" title="Permalink to this definition">¶</a></dt>
