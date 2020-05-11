@@ -32,6 +32,14 @@ class Route(pd.DataFrame):
     def milage(self):
         return milage(self)
 
+    @property
+    def start_time(self):
+        return start_time(self)
+
+    @property
+    def end_time(self):
+        return end_time(self)
+
 
 def slices(df: pd.DataFrame):
     for k, v in df.groupby(["car", "date"]):
@@ -55,15 +63,6 @@ def make_route(df: pd.DataFrame) -> Route:
     res = df[["time", "lat", "lon"]]
     res["coord"] = coord(df)
     return Route(res.sort_values("time"))
-
-
-def trip_dicts(trips, routes, milages):
-    for t, r, m in zip(trips, routes, milages):
-        yield dict(car=t.car, start=start_time(r), end=end_time(r), km=m)
-
-
-def trips_dataframe(trips, routes, milages):
-    return pd.DataFrame(trip_dicts(trips, routes, milages))
 
 
 def duration_acc(df: pd.DataFrame) -> pd.DataFrame:

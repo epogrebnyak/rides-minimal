@@ -46,13 +46,12 @@ def get_summaries(filename):
     return pd.read_csv(filename)
 
 
-def wrap_vehicle_type(df: pd.DataFrame) -> Callable:
+def wrap_vehicle_type(summary_df: pd.DataFrame) -> Callable:
     """
     Вернуть функцию, которая по идентификатору автомобиля
     будет определять его тип.
-    Функция создается на основе данных из файла *filename*. 
     """
-    vehicles = df.groupby("car_id").first()
+    vehicles = summary_df.groupby("car_id").first()
 
     def vtype(car_id: str):
         return vehicles.loc[car_id]

@@ -1,9 +1,11 @@
-"""Representaion of results."""
+"""Representaion of results as dataframes."""
 
 from typing import List
 import pandas as pd  # type: ignore
 
-__all__ = ["pairs_dataframe"]
+from rider.vehicles import wrap_vehicle_type
+
+__all__ = ["pairs_dataframe", "trips_dataframe"]
 
 
 def overlap(df):
@@ -23,9 +25,21 @@ def extend(df, milages):
 
 def pairs_dataframe(dicts: List[dict], milages: List[float]):
     """
-    Создать датафрейм с парными характеристиками поездок
-    на основе списков *dicts* и *milages*.    
+    Создать датафрейм с парными характеристиками поездок.    
     """
     df = pd.DataFrame(dicts)
     df = extend(df, milages)
     return df.sort_values("cov", ascending=False).reset_index(drop=True)
+
+
+def trip_dicts(trips, routes, milages, summary_df):
+    """
+    Создать датафрейм с характеристиками поездок.    
+    """
+    f = wrap_vehicle_type(summary_df)
+    for t, r, m in zip(trips, routes, milages):
+        yield dict(car=t.car, types=f(t.car), start=r.start_time, end=r.end_time, km=m)
+
+
+def trips_dataframe(trips, routes, milages, summary_df):
+    return pd.DataFrame(trip_dicts(trips, routes, milages, summary_df))

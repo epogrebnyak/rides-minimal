@@ -5,10 +5,9 @@ import pandas as pd  # type: ignore
 
 from rider.files import dataprep
 from rider.vehicles import get_summaries, wrap_vehicle_type
-from rider.routes import get_trips_and_routes, trips_dataframe
+from rider.routes import get_trips_and_routes
 from rider.search import default_search
-from rider.dataframe import pairs_dataframe
-
+from rider.dataframe import pairs_dataframe, trips_dataframe
 
 
 __all__ = [
@@ -30,7 +29,7 @@ def read_dataframe(filename, **kwargs):
     return df_full[["car", "date", "time", "lat", "lon"]]
 
 
-def get_dataset(url: str, folder=None)-> Tuple[pd.DataFrame, pd.DataFrame]:
+def get_dataset(url: str, folder=None) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """
     Получить основные переменные из данных по адресу *url*.
     Если путь *folder* указан, файлы будут сохранены и переиспользоваться.
@@ -53,30 +52,31 @@ def make_subset(
     df_summaries: pd.DataFrame,
     days: List[str] = [],
     types: List[str] = [],
-):    
+):
     print("Creating a subset...")
     subset_df = df_full.copy()
     if days:
         ix = subset_df.date.isin(days)
         subset_df = subset_df[ix]
     if types:
-        resolver= wrap_vehicle_type(df_summaries)
-        ix = df.car.apply(resolver).isin(types)
+        resolver = wrap_vehicle_type(df_summaries)
+        ix = subset_df.car.apply(resolver).isin(types)
         subset_df = subset_df[ix]
     print("Done")
     return subset_df
 
 
-def default_results(df, limit=None):
+def default_results(data_df, summary_df, limit=None):
     print("Extracting list of routes...")
-    trips, routes = get_trips_and_routes(df)
+    trips, routes = get_trips_and_routes(data_df)
     print("Calcultaing route length...")
     milages = [r.milage for r in routes]
     print("Entering proximity search...")
     result_dicts = default_search(routes, limit)
-    print("Reporting...")
+    print("Reporting pairs...")
     pairs_df = pairs_dataframe(result_dicts, milages)
-    trips_df = trips_dataframe(trips, routes, milages)
+    print("Reporting individual routes...")
+    trips_df = trips_dataframe(trips, routes, milages, summary_df)
     return (trips_df, pairs_df), (trips, routes, milages)
 
 
@@ -85,4 +85,4 @@ def default_pipeline(url, data_folder, days=[], types=[], limit: int = None):
     df_full = read_dataframe(full_csv)
     df_summaries = pd.read_csv(summaries_csv)
     df = make_subset(df_full, df_summaries, days, types)
-    return default_results(df, limit)
+    return default_results(df, df_summaries, limit)
