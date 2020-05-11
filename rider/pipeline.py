@@ -31,7 +31,7 @@ def read_dataframe(filename, **kwargs):
     return df_full[["car", "date", "time", "lat", "lon"]]
 
 
-def get_dataset(url: str, folder=None)-> Tuple[DF,DF]:
+def get_dataset(url: str, folder=None)-> Tuple[pd.DataFrame, pd.DataFrame]:
     """
     Получить основные переменные из данных по адресу *url*.
     Если путь *folder* указан, файлы будут сохранены и переиспользоваться.
