@@ -8,7 +8,7 @@ Coord = Tuple[float, float]
 
 def distance_km(a: Coord, b: Coord):
     """
-    Измеренеи расстояний. Использует great_circle():
+    Измерение расстояний между парами координат. Использует great_circle():
     менее точен, но быстрее чем geopy.distance.distance. См.
     https://geopy.readthedocs.io/en/stable/#module-geopy.distance
     """

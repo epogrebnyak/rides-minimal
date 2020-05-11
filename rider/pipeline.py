@@ -64,7 +64,7 @@ def make_subset(
         ix = df.car.apply(resolver).isin(types)
         return df[ix]
 
-    print("Creating a subset of larger data dataset...")
+    print("Creating a subset...")
     subset_df = df_full.copy()
     if days:
         subset_df = _subset_by_dates(subset_df, days)
