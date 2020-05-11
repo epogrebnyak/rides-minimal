@@ -25,11 +25,12 @@
 
 .. code-block:: python
 
-   from rider import get_dataset, make_subset, default_results
-   df_full, vehicle_type = get_dataset(RAW_DATA_URL, DATA_FOLDER)
-   subset_df = make_subset(df_full, vehicle_type, DAYS, TYPES)
-   (trip_df, pairs_df), (trips, routes, milages) = default_results(subset_df)
- 
+    import rider
+    df_full, df_summaries = rider.get_dataset(RAW_DATA_URL, DATA_FOLDER)
+    subset_df = rider.make_subset(df_full, df_summaries, DAYS, TYPES)
+    (trip_df, pairs_df), _ = rider.results(subset_df, 
+                                        df_summaries, 
+                                        search_param=SEARCH_PARAM)
 
 Описание алгоритма
 ------------------
