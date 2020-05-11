@@ -173,7 +173,7 @@ def search(
     result = []
     for (i, j) in tqdm(pairs):
         p = proximity(refined_routes[i], refined_routes[j])
-        if p.min() < search_radius_1:
+        if p.min() < search_radius_2:
             d = dict(id_1=i, id_2=j, **p.report(search_radius_2))
             result.append(d)
     return result
