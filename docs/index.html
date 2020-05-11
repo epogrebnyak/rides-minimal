@@ -41,7 +41,7 @@
 <li><a class="reference internal" href="#id4">Код</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id5">Описание алгоритма</a><ul>
+<li><a class="reference internal" href="#id5">Шаги алгоритма</a><ul>
 <li><a class="reference internal" href="#id6">Гипотезы и упрощения</a></li>
 <li><a class="reference internal" href="#id7">Ключевые слова</a></li>
 </ul>
@@ -96,29 +96,35 @@
 <span class="n">df_full</span><span class="p">,</span> <span class="n">df_summaries</span> <span class="o">=</span> <span class="n">rider</span><span class="o">.</span><span class="n">get_dataset</span><span class="p">(</span><span class="n">RAW_DATA_URL</span><span class="p">,</span> <span class="n">DATA_FOLDER</span><span class="p">)</span>
 <span class="n">subset_df</span> <span class="o">=</span> <span class="n">rider</span><span class="o">.</span><span class="n">make_subset</span><span class="p">(</span><span class="n">df_full</span><span class="p">,</span> <span class="n">df_summaries</span><span class="p">,</span> <span class="n">DAYS</span><span class="p">,</span> <span class="n">TYPES</span><span class="p">)</span>
 <span class="p">(</span><span class="n">trip_df</span><span class="p">,</span> <span class="n">pairs_df</span><span class="p">),</span> <span class="n">_</span> <span class="o">=</span> <span class="n">rider</span><span class="o">.</span><span class="n">results</span><span class="p">(</span><span class="n">subset_df</span><span class="p">,</span>
-                                    <span class="n">df_summaries</span><span class="p">,</span>
-                                    <span class="n">search_param</span><span class="o">=</span><span class="n">SEARCH_PARAM</span><span class="p">)</span>
+                                       <span class="n">df_summaries</span><span class="p">,</span>
+                                       <span class="n">search_param</span><span class="o">=</span><span class="n">SEARCH_PARAM</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="section" id="id5">
-<h2>Описание алгоритма<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><p>Прочли сырые данные из JSON, создали два табличных файла</p></li>
-<li><p>Преобразовали исходные данные в список треков <cite>List[Route: pd.DataFrame]</cite></p></li>
+<h2>Шаги алгоритма<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li><p>Прочитали сырые данные из JSON, создали два CSV файла</p></li>
+<li><p>Получили данные в виде фреймов <cite>df_full</cite> и <cite>df_summaries</cite></p></li>
+<li><p>Ограничили выборку по дням и типам автомобилей</p></li>
+<li><p>Преобразовали данные в список треков <cite>[Route]</cite></p></li>
 <li><p>Составляем все пары треков, количество таких пар будет равно <cite>n * (n-1) / 2</cite></p></li>
-<li><p>Проводим анализ фигур треков в два этапа:
-- выбраковываем непересекающиеся треки (в грубой апроксимации треков)
-- оцениваем близость фигур оставшихся пар треков (в более точной апрокимации треков)</p></li>
-<li><p>Внутри каждой пары треков получаем коэффициенты сходимости треков</p></li>
-<li><p>Добавляем данные о длине треков, рассчитываем дополнительный коэффициент перекрытия с учетом длины</p></li>
-<li><p>Сделали две выгрузки датавреймов про сами терки и про найденные парные харакетристики</p></li>
+<li><p>Проводим анализ фигур треков для всех пар, в два этапа:</p>
+<ul class="simple">
+<li><p>выбраковываем заведомо непересекающиеся треки (в грубой апроксимации треков)</p></li>
+<li><p>оцениваем близость фигур оставшихся пар треков (в более точной апрокcимации треков)</p></li>
 </ul>
+</li>
+<li><p>Внутри каждой пары треков получаем коэффициенты сходимости треков <cite>cov1</cite> и <cite>cov2</cite></p></li>
+<li><p>Добавляем данные о длине треков и рассчитываем дополнительный коэффициент перекрытия с учетом пробега (<cite>op</cite>)</p></li>
+<li><p>Выгружаем найденные характеристики в CSV файлы</p></li>
+</ol>
 <div class="section" id="id6">
 <h3>Гипотезы и упрощения<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>Смотрим путь машины внутри суток без учета разных заказов (объединяем заказы в один в течение суток)</p></li>
+<li><p>Смотрим путь машины внутри суток без учета разных заказов (объединяем заказы в один
+в течение суток)</p></li>
 </ul>
 </div>
 <div class="section" id="id7">

@@ -12,7 +12,7 @@ __all__ = (
     """Trip           
            Route
            make_route 
-           get_trips_and_routes
+           get_trips_and_routes           
            Increment
            Segments"""
 ).split()
