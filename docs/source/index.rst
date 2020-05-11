@@ -7,14 +7,18 @@
 rider
 =====
 
-This is docs/index.rst, documenting the Rider project.
+Ищем меру дублирования маршрутов поездок автомобилей корпоративного парка.
+
+Пример использования
+--------------------
 
 Ноутбук
--------
+~~~~~~~
 
 Текущая версия используется в `Google Colab <https://colab.research.google.com/drive/1o_C-fdRLY1EMGcQlLEhg065IhT4hsBPp#scrollTo=H9lgHtCHp8Dv>`_.
 
-Пример использования:
+Код
+~~~
 
 
 .. code-block:: python
