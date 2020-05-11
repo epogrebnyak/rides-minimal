@@ -1,17 +1,4 @@
-# rides-minimal
-
-Основной файл: [rides_minimal.ipynb](https://github.com/epogrebnyak/rides-minimal/blob/master/rides_minimal.ipynb)
-
-## Текущие задачи
-
-- [ ] Переносим в `rides_minimal.ipynb` оставшийся код из [ноутбука rides2.ipynb на Google Colab](https://colab.research.google.com/drive/1DXsJBTyVvAXrU1aEy5GFWiF_i75LmWS1#scrollTo=h3WG4Nex_pmC)
-
-
-## Roadmap доработок 
-
-Инфраструктура:
-
-- [ ] Попробовать [nbdev](https://github.com/fastai/nbdev) для пакетов и документации
+# Карта доработок // Dev roadmap
 
 Новое:
 
@@ -19,7 +6,7 @@
 - [ ] сегментация пар треков по плотности перевозок (км трека на км площади)
 - [ ] треки сошлись, что дальше
 
-Из [rides2.ipynb] - графика:
+Графика:
 
 - [ ] улучшить обозначения начала и конца треков
 - [ ] все треки за день
