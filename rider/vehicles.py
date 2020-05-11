@@ -42,16 +42,18 @@ def get_summaries(filename):
 
 
 class CarSummary:
-  def __init__(self, df: pd.DataFrame):
-    self._df = df.groupby("car_id").first()
-    from rider.vehicles import vehicle_type_dataframe    
-    self._src = vehicle_type_dataframe(self._df)
+    def __init__(self, df: pd.DataFrame):
+        self._df = df.groupby("car_id").first()
+        from rider.vehicles import vehicle_type_dataframe
 
-  def category(self, car_id: str):
-    return self._df.loc[car_id].category
+        self._src = vehicle_type_dataframe(self._df)
 
-  def type(self, car_id: str):
-    return self._src[car_id]
+    def category(self, car_id: str):
+        return self._df.loc[car_id].category
+
+    def type(self, car_id: str):
+        return self._src[car_id]
+
 
 # x = "eea6db41-360c-11e5-989b-00155d630038"
 # car_category(df_summaries, x), car_type(df_summaries, x)

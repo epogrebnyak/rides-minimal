@@ -6,7 +6,7 @@ from scipy.spatial.distance import cdist  # type: ignore
 from tqdm import tqdm  # type: ignore
 
 from rider.distance import safe_distance_2
-from rider.routes import Route, points, n_segments_by_distance, distance_increment
+from rider.routes import Route, points, DistanceFilter
 
 
 def proximity(r1, r2):
@@ -180,14 +180,12 @@ def search(
 
 
 DEFAULT_PARAM = dict(
-    simplify_with=n_segments_by_distance(n=10),
+    simplify_with=DistanceFilter(n_segments=10).callable,
     search_radius_1=10,
-    refine_with=distance_increment(step_km=2.5),
+    refine_with=DistanceFilter(step_km=2.5).callable,
     search_radius_2=2.5 * 1.2,
 )
 
-             
-        
-        
+
 def default_search(routes: List[Route], limit=None):
     return search(routes, limit=limit, **DEFAULT_PARAM)

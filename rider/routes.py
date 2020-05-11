@@ -192,16 +192,36 @@ def distance_increment(step_km: float):
     return accept
 
 
-class DistanceFilter():
-     def __init__(self, *, n_segments=None, step_km=None):
-         if n_segments and step_km is None:
-             self.callable = n_segments_by_distance(n_segments)             
-         elif step_km and n_segments is None:
-             self.callable = distance_increment(step_km)
-         else:             
-             raise ValueError("Expecting either 'n_segments' or 'step_km' "
-                              "keyword argument")
-             
-     def apply(self, r : Route) -> Route:        
-         return self.callable(r)
-     
+class Filter(object):
+    args = []
+
+    def apply(self, r: Route) -> Route:
+        return self.callable(r)
+
+    @classmethod
+    def error(cls):
+        raise ValueError("Expected exactly one keyword argument from {cls.args}")
+
+
+class DistanceFilter(Filter):
+    args = "n_segments", "step_km"
+
+    def __init__(self, *, n_segments=None, step_km=None):
+        if n_segments and step_km is None:
+            self.callable = n_segments_by_distance(n_segments)
+        elif step_km and n_segments is None:
+            self.callable = distance_increment(step_km)
+        else:
+            self.error()
+
+
+class DurationFilter(Filter):
+    args = "n_segments", "minutes"
+
+    def __init__(self, *, n_segments=None, minutes=None):
+        if n_segments and minutes is None:
+            self.callable = n_segments_by_time(n_segments)
+        elif minutes and n_segments is None:
+            self.callable = time_increment(minutes)
+        else:
+            self.error()

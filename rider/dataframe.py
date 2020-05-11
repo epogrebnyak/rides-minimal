@@ -33,13 +33,18 @@ def pairs_dataframe(dicts: List[dict], milages: List[float]):
 
 
 def trip_dicts(trips, routes, milages, summary_df):
-    cs = CarSummary(summary_df) 
+    cs = CarSummary(summary_df)
     f = cs.type
     g = cs.category
     for t, r, m in zip(trips, routes, milages):
-        yield dict(car=t.car, 
-        type=f(t.car), cat=g(t.car),
-        start=r.start_time, end=r.end_time, km=m)
+        yield dict(
+            car=t.car,
+            type=f(t.car),
+            cat=g(t.car),
+            start=r.start_time,
+            end=r.end_time,
+            km=m,
+        )
 
 
 def trips_dataframe(trips, routes, milages, summary_df):

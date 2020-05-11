@@ -6,7 +6,7 @@ def test_default_pipeline(tmpdir):
         url="https://github.com/epogrebnyak/rides-minimal/raw/master/sample_jsons/sample_jsons.zip",
         data_folder=tmpdir,
         days=None,
-        types=['passenger'],
+        types=["passenger"],
         limit=None,
     )
     (trips_df, pairs_df), _ = default_pipeline(**job)

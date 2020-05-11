@@ -46,7 +46,7 @@ def get_dataset(url: str, folder=None) -> Tuple[pd.DataFrame, pd.DataFrame]:
         with tempfile.TemporaryDirectory() as tmpdirname:
             return from_folder(url, tmpdirname)
 
-  
+
 def make_subset(
     df_full: pd.DataFrame,
     df_summaries: pd.DataFrame,
@@ -59,7 +59,7 @@ def make_subset(
         ix = subset_df.date.isin(days)
         subset_df = subset_df[ix]
     if types:
-        cs = CarSummary(df_summaries)        
+        cs = CarSummary(df_summaries)
         ix = subset_df.car.apply(cs.type).isin(types)
         subset_df = subset_df[ix]
     print("Done")

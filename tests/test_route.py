@@ -85,4 +85,4 @@ def test_milage():
 
 def test_DistanceFilter():
     assert DistanceFilter(n_segments=10).apply(r).__len__() == 11
-    assert DistanceFilter(step_km=2.5).apply(r).__len__() == 8  
+    assert DistanceFilter(step_km=2.5).apply(r).__len__() == 8
