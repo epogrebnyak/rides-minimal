@@ -8,41 +8,44 @@ from .routes import get_trips_and_routes, trips_dataframe
 from .search import default_search
 from .dataframe import pairs_dataframe
 
-
-def _get_date(df):
-    return df.time.apply(lambda x: pd.Timestamp(x, unit="s").date().__str__())
+__all__ = [
+    "get_dataset",
+    "make_subset",
+    "make_subset_from_files",
+    "default_results",
+    "default_pipeline",
+]
 
 
 def read_dataframe(filename, **kwargs):
+    def _date(df):
+        return df.time.apply(lambda x: pd.Timestamp(x, unit="s").date().__str__())
+
     df_full = pd.read_csv(filename, usecols=["car", "time", "lat", "lon"], **kwargs)
     print("Adding <date> column...")
-    df_full["date"] = _get_date(df_full)
+    df_full["date"] = _date(df_full)
     return df_full[["car", "date", "time", "lat", "lon"]]
 
 
-def get_dataset(url, folder):
-    full_csv, summaries_csv = dataprep(url, folder)
-    print("Reading dataset from local files...")
-    return read_dataframe(full_csv), wrap_vehicle_type(summaries_csv)
+def get_dataset(url: str, folder=None):
+    """
+    Получить основные переменные из данных по адресу *url*.
+    Если путь *folder* указан, файлы будут сохранены и переиспользоваться.
+    Если путь *folder* не указан, будет использован временный каталог.
+    """
 
+    def _get_dataset(url, folder):
+        full_csv, summaries_csv = dataprep(url, folder)
+        print("Reading dataset from local files...")
+        return read_dataframe(full_csv), wrap_vehicle_type(summaries_csv)
 
-def get_dataset0(url: str):
-    import tempfile
+    if folder:
+        return _get_dataset(url, folder)
+    else:
+        import tempfile
 
-    with tempfile.TemporaryDirectory() as tmpdirname:
-        return get_dataset(url, tmpdirname)
-
-
-def _subset_by_dates(df: pd.DataFrame, days: List[str]) -> pd.DataFrame:
-    ix = df.date.isin(days)
-    return df[ix]
-
-
-def _subset_by_vehicle_types(
-    df: pd.DataFrame, types: List[str], resolver: Callable
-) -> pd.DataFrame:
-    ix = df.car.apply(resolver).isin(types)
-    return df[ix]
+        with tempfile.TemporaryDirectory() as tmpdirname:
+            return _get_dataset(url, tmpdirname)
 
 
 def make_subset(
@@ -51,13 +54,23 @@ def make_subset(
     days: List[str] = [],
     types: List[str] = [],
 ):
+    def _subset_by_dates(df: pd.DataFrame, days: List[str]) -> pd.DataFrame:
+        ix = df.date.isin(days)
+        return df[ix]
+
+    def _subset_by_vehicle_types(
+        df: pd.DataFrame, types: List[str], resolver: Callable
+    ) -> pd.DataFrame:
+        ix = df.car.apply(resolver).isin(types)
+        return df[ix]
+
     print("Creating a subset of larger data dataset...")
     subset_df = df_full.copy()
     if days:
         subset_df = _subset_by_dates(subset_df, days)
     if types:
         subset_df = _subset_by_vehicle_types(subset_df, types, vehicle_type)
-    print("Done")    
+    print("Done")
     return subset_df
 
 
@@ -68,7 +81,7 @@ def make_subset_from_files(full_csv, summaries_csv, days, types):
 
 
 def default_results(df, limit=None):
-    print("Extracting list of routes...")    
+    print("Extracting list of routes...")
     trips, routes = get_trips_and_routes(df)
     print("Calcultaing route length...")
     milages = [r.milage for r in routes]
