@@ -8,7 +8,6 @@ from .search import default_search
 from .dataframe import pairs_dataframe
 from .pipeline import (
     get_dataset,
-    get_dataset0,
     make_subset,
     make_subset_from_files,
     default_pipeline,
