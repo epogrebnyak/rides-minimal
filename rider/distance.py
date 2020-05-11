@@ -17,7 +17,7 @@ def distance_km(a: Coord, b: Coord):
 def safe_distance(a: Coord, b: Coord) -> float:
     """
     Безопасный доступ к distance_km.
-    Используется с distance_delta.
+    Используется с routes.distance_delta.
     """
     if a == b:
         return 0

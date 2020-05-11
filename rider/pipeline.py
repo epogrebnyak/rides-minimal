@@ -49,11 +49,13 @@ def make_subset(
     days: List[str] = [],
     types: List[str] = [],
 ):
+    print("Creating a sunset of data...")
     subset_df = df_full.copy()
     if days:
         subset_df = _subset_by_dates(subset_df, days)
     if types:
         subset_df = _subset_by_vehicle_types(subset_df, types, vehicle_type)
+    print("Done")    
     return subset_df
 
 
@@ -64,9 +66,13 @@ def make_subset_from_files(full_csv, summaries_csv, days, types):
 
 
 def default_results(df, limit=None):
+    print("Extracting list of routes...")    
     trips, routes = get_trips_and_routes(df)
+    print("Calcultaing route length...")
     milages = [r.milage for r in routes]
+    print("Entering proximity search...")
     result_dicts = default_search(routes, limit)
+    print("Reporting...")
     pairs_df = pairs_dataframe(result_dicts, milages)
     trips_df = trips_dataframe(trips, routes, milages)
     return (trips_df, pairs_df), (trips, routes, milages)
