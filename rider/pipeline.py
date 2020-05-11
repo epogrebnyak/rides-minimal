@@ -5,8 +5,8 @@ import pandas as pd  # type: ignore
 
 from rider.files import dataprep
 from rider.vehicles import get_summaries, CarSummary
-from rider.routes import get_trips_and_routes
-from rider.search import default_search
+from rider.search import search
+from rider.routes import get_trips_and_routes, Segments, Increment
 from rider.dataframe import pairs_dataframe, trips_dataframe
 
 
@@ -66,13 +66,21 @@ def make_subset(
     return subset_df
 
 
-def default_results(data_df, summary_df, limit=None):
+DEFAULT_PARAM = dict(
+    simplify_with=Segments.by_distance(n=10),
+    search_radius_1=10,
+    refine_with=Increment.by_distance(step_km=2.5),
+    search_radius_2=2.5 * 1.2,
+)
+
+
+def results(data_df, summary_df, limit=None, search_param=DEFAULT_PARAM):
     print("Extracting list of routes...")
     trips, routes = get_trips_and_routes(data_df)
     print("Calcultaing route length...")
     milages = [r.milage for r in routes]
     print("Entering proximity search...")
-    result_dicts = default_search(routes, limit)
+    result_dicts = search(routes, limit=limit, **search_param)
     print("Reporting pairs...")
     pairs_df = pairs_dataframe(result_dicts, milages)
     print("Reporting individual routes...")
@@ -84,5 +92,5 @@ def default_pipeline(url, data_folder, days=[], types=[], limit: int = None):
     full_csv, summaries_csv = dataprep(url, data_folder)
     df_full = read_dataframe(full_csv)
     df_summaries = pd.read_csv(summaries_csv)
-    df = make_subset(df_full, df_summaries, days, types)
-    return default_results(df, df_summaries, limit)
+    df_subset = make_subset(df_full, df_summaries, days, types)
+    return results(df_subset, df_summaries, limit)

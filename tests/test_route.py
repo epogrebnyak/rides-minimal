@@ -74,7 +74,7 @@ r_ = pd.DataFrame(
     }
 )
 
-from rider.routes import make_route, DistanceFilter
+from rider.routes import make_route, Segments, Increment
 
 r = make_route(r_)
 
@@ -83,6 +83,6 @@ def test_milage():
     assert r.milage == 26.38
 
 
-def test_DistanceFilter():
-    assert DistanceFilter(n_segments=10).apply(r).__len__() == 11
-    assert DistanceFilter(step_km=2.5).apply(r).__len__() == 8
+def test_distance_filter():
+    assert Segments.by_distance(n=10)(r).__len__() == 11
+    assert Increment.by_distance(step_km=2.5)(r).__len__() == 8
