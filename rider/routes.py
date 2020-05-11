@@ -6,7 +6,7 @@ import numpy as np  # type: ignore
 
 pd.set_option("mode.chained_assignment", None)
 
-from rider.helpers import safe_distance
+from rider.distance import safe_distance
 
 __all__ = (
     """Trip
