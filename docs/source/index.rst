@@ -8,10 +8,14 @@ rider
 =====
 
 This is docs/index.rst, documenting the Rider project.
-Latest demo is at `Google Colab <https://colab.research.google.com/drive/1o_C-fdRLY1EMGcQlLEhg065IhT4hsBPp#scrollTo=H9lgHtCHp8Dv>`_
 
-Usage
------
+Ноутбук
+-------
+
+Текущая версия используется в `Google Colab <https://colab.research.google.com/drive/1o_C-fdRLY1EMGcQlLEhg065IhT4hsBPp#scrollTo=H9lgHtCHp8Dv>`_.
+
+Использование
+-------------
 
 .. code-block:: python
 
@@ -22,4 +26,10 @@ Usage
  
 
 
+Идеи и ключевые слова
+---------------------
 
+Расстояния между кривыми:
+
+- Hausdorff distance
+- Fréchet distance
