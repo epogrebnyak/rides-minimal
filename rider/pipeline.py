@@ -15,12 +15,14 @@ def _get_date(df):
 
 def read_dataframe(filename, **kwargs):
     df_full = pd.read_csv(filename, usecols=["car", "time", "lat", "lon"], **kwargs)
+    print("Adding <date> column...")
     df_full["date"] = _get_date(df_full)
     return df_full[["car", "date", "time", "lat", "lon"]]
 
 
 def get_dataset(url, folder):
     full_csv, summaries_csv = dataprep(url, folder)
+    print("Reading dataset from local files...")
     return read_dataframe(full_csv), wrap_vehicle_type(summaries_csv)
 
 
