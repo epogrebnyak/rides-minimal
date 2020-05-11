@@ -1,12 +1,15 @@
-from typing import Callable, List
+from typing import Callable, List, Tuple
+import tempfile
 
 import pandas as pd  # type: ignore
 
-from .files import dataprep
-from .vehicles import wrap_vehicle_type
-from .routes import get_trips_and_routes, trips_dataframe
-from .search import default_search
-from .dataframe import pairs_dataframe
+from rider.files import dataprep
+from rider.vehicles import get_summaries, wrap_vehicle_type
+from rider.routes import get_trips_and_routes, trips_dataframe
+from rider.search import default_search
+from rider.dataframe import pairs_dataframe
+
+DF = pd.DataFrame
 
 __all__ = [
     "get_dataset",
@@ -21,13 +24,14 @@ def read_dataframe(filename, **kwargs):
     def _date(df):
         return df.time.apply(lambda x: pd.Timestamp(x, unit="s").date().__str__())
 
+    print("Reading dataset from local file...")
     df_full = pd.read_csv(filename, usecols=["car", "time", "lat", "lon"], **kwargs)
     print("Adding <date> column...")
     df_full["date"] = _date(df_full)
     return df_full[["car", "date", "time", "lat", "lon"]]
 
 
-def get_dataset(url: str, folder=None):
+def get_dataset(url: str, folder=None)-> Tuple[DF,DF]:
     """
     Получить основные переменные из данных по адресу *url*.
     Если путь *folder* указан, файлы будут сохранены и переиспользоваться.
@@ -36,21 +40,18 @@ def get_dataset(url: str, folder=None):
 
     def _get_dataset(url, folder):
         full_csv, summaries_csv = dataprep(url, folder)
-        print("Reading dataset from local files...")
-        return read_dataframe(full_csv), wrap_vehicle_type(summaries_csv)
+        return read_dataframe(full_csv), get_summaries(summaries_csv)
 
     if folder:
         return _get_dataset(url, folder)
     else:
-        import tempfile
-
         with tempfile.TemporaryDirectory() as tmpdirname:
             return _get_dataset(url, tmpdirname)
 
 
 def make_subset(
     df_full: pd.DataFrame,
-    vehicle_type: Callable,
+    df_summaries: pd.DataFrame,
     days: List[str] = [],
     types: List[str] = [],
 ):
@@ -69,15 +70,10 @@ def make_subset(
     if days:
         subset_df = _subset_by_dates(subset_df, days)
     if types:
-        subset_df = _subset_by_vehicle_types(subset_df, types, vehicle_type)
+        f_ = wrap_vehicle_type(df_summaries)
+        subset_df = _subset_by_vehicle_types(subset_df, types, f_)
     print("Done")
     return subset_df
-
-
-def make_subset_from_files(full_csv, summaries_csv, days, types):
-    return make_subset(
-        read_dataframe(full_csv), wrap_vehicle_type(summaries_csv), days, types
-    )
 
 
 def default_results(df, limit=None):
@@ -95,5 +91,7 @@ def default_results(df, limit=None):
 
 def default_pipeline(url, data_folder, days=[], types=[], limit: int = None):
     full_csv, summaries_csv = dataprep(url, data_folder)
-    df = make_subset_from_files(full_csv, summaries_csv, days, types)
+    df_full = read_dataframe(full_csv)
+    df_summaries = pd.read_csv(summaries_csv)
+    df = make_subset(df_full, df_summaries, days, types)
     return default_results(df, limit)

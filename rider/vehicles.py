@@ -4,7 +4,7 @@ from typing import List, Callable
 
 import pandas as pd  # type: ignore
 
-__all__ = ["list_types", "wrap_vehicle_type"]
+__all__ = ["list_types", "get_summaries", "wrap_vehicle_type"]
 
 
 def list_types() -> List:
@@ -41,17 +41,18 @@ def vehicle_type_dataframe(cars: pd.DataFrame):
     return cars.type
 
 
-def all_cars(filename: str) -> pd.DataFrame:
-    return pd.read_csv(filename).groupby("car_id").first()
+def get_summaries(filename):
+    print("Reading summaries from local file...")
+    return pd.read_csv(filename)
 
 
-def wrap_vehicle_type(filename: str) -> Callable:
+def wrap_vehicle_type(df: pd.DataFrame) -> Callable:
     """
     Вернуть функцию, которая по идентификатору автомобиля
     будет определять его тип.
     Функция создается на основе данных из файла *filename*. 
     """
-    vehicles = vehicle_type_dataframe(all_cars(filename))
+    vehicles = df.groupby("car_id").first()
 
     def vtype(car_id: str):
         return vehicles.loc[car_id]

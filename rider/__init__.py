@@ -1,5 +1,5 @@
 from .files import dataprep
-from .vehicles import wrap_vehicle_type
+from .vehicles import wrap_vehicle_type, list_types, get_summaries
 from .routes import (
     get_trips_and_routes,
     trips_dataframe,
@@ -9,7 +9,6 @@ from .dataframe import pairs_dataframe
 from .pipeline import (
     get_dataset,
     make_subset,
-    make_subset_from_files,
     default_pipeline,
     default_results,
 )
