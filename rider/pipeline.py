@@ -4,7 +4,7 @@ import tempfile
 import pandas as pd  # type: ignore
 
 from rider.files import dataprep
-from rider.vehicles import get_summaries, wrap_vehicle_type
+from rider.vehicles import get_summaries, CarSummary
 from rider.routes import get_trips_and_routes
 from rider.search import default_search
 from rider.dataframe import pairs_dataframe, trips_dataframe
@@ -46,7 +46,7 @@ def get_dataset(url: str, folder=None) -> Tuple[pd.DataFrame, pd.DataFrame]:
         with tempfile.TemporaryDirectory() as tmpdirname:
             return from_folder(url, tmpdirname)
 
-
+  
 def make_subset(
     df_full: pd.DataFrame,
     df_summaries: pd.DataFrame,
@@ -59,8 +59,8 @@ def make_subset(
         ix = subset_df.date.isin(days)
         subset_df = subset_df[ix]
     if types:
-        resolver = wrap_vehicle_type(df_summaries)
-        ix = subset_df.car.apply(resolver).isin(types)
+        cs = CarSummary(df_summaries)        
+        ix = subset_df.car.apply(cs.type).isin(types)
         subset_df = subset_df[ix]
     print("Done")
     return subset_df

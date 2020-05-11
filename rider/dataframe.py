@@ -3,7 +3,7 @@
 from typing import List
 import pandas as pd  # type: ignore
 
-from rider.vehicles import wrap_vehicle_type
+from rider.vehicles import CarSummary
 
 __all__ = ["pairs_dataframe", "trips_dataframe"]
 
@@ -36,9 +36,13 @@ def trip_dicts(trips, routes, milages, summary_df):
     """
     Создать датафрейм с характеристиками поездок.    
     """
-    f = wrap_vehicle_type(summary_df)
+    cs = CarSummary(summary_df) 
+    f = cs.type
+    g = cs.category
     for t, r, m in zip(trips, routes, milages):
-        yield dict(car=t.car, types=f(t.car), start=r.start_time, end=r.end_time, km=m)
+        yield dict(car=t.car, 
+        type=f(t.car), cat=g(t.car),
+        start=r.start_time, end=r.end_time, km=m)
 
 
 def trips_dataframe(trips, routes, milages, summary_df):
