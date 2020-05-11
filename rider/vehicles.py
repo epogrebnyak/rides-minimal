@@ -1,3 +1,5 @@
+"""Find vehicle type."""
+
 from typing import List, Callable
 
 import pandas as pd  # type: ignore
