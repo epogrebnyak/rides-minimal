@@ -41,6 +41,11 @@ def get_summaries(filename):
     return pd.read_csv(filename)
 
 
+def id_to_type_factory(filename) -> Callable:    
+    df = vehicle_type_dataframe(get_summaries(filename).groupby("car_id").first())
+    return lambda car_id: df[car_id]
+
+
 class CarSummary:
     def __init__(self, df: pd.DataFrame):
         self._df = df.groupby("car_id").first()

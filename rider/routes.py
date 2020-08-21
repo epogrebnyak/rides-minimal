@@ -126,7 +126,10 @@ def quantile(xs, q):
 
 def where(xs, q):
     i = quantile(xs, q)
-    return np.searchsorted(xs, xs[i], side="left")
+    try:
+       return np.searchsorted(xs, xs[i], side="left")
+    except IndexError:
+       return 0 
 
 
 def find_index_one(xs: List, q: float) -> int:
