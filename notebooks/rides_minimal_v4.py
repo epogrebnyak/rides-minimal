@@ -22,7 +22,7 @@ RAW_DATA_URL_UPDATED = (
     "/sh/hibzl6fkzukltk9/AABSMicBJlwMnlmA3ljt1uY5a"
     "/data_samples-json2.zip")
 
-DAYS = ["2020-05-20"]
+DAYS = ["2020-05-21"]
 TYPES = ["freight"]
 DATA_FOLDER = "data2"
 
